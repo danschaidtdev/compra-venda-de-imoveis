@@ -236,7 +236,7 @@ ${JSON.stringify(schema, null, 2)}
   <div class="moldura-nav blocoMenu">
   <div id="logotipo">
     <a href="/index.html">
-      <img src="/assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
+      <img src="assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
     </a>
   </div>
 
@@ -332,7 +332,7 @@ ${JSON.stringify(schema, null, 2)}
             <div class="botaoCTA" style="margin-top: 3vh;">
                   <button type="button" >Agendar uma Visita</button>
               </div>
-          <img class=" img-decorada" src="/assets/img/completo-fundo-azul-amarelo.webp"
+          <img class=" img-decorada" src="assets/img/completo-fundo-azul-amarelo.webp"
               alt="Corretor de Imóveis no Rio Grande do Sul, Dan Schaidt">
               
         </div>
@@ -394,7 +394,7 @@ sugestaoBidirecional({
   *-*%20_${imovel.cidade}_%0A
   " target="_blank" rel="noopener noreferrer">
     <div class="botaoFIXO">
-      <img src="/assets/img/img-geral/logo-whatsapp.png" alt="">
+      <img src="assets/img/img-geral/logo-whatsapp.png" alt="">
 
     </div>
 </a>  
@@ -524,7 +524,7 @@ async function gerarPaginas() {
   // Carregar lista existente
   let lista = [];
   try {
-    const res = await fetch("/assets/json/lista-imoveis.json");
+    const res = await fetch("assets/json/lista-imoveis.json");
     if (res.ok) lista = await res.json();
   } catch {
     console.warn("Não foi possível carregar lista-imoveis.json. Será criada uma nova.");
