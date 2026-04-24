@@ -10,7 +10,7 @@
 // ------------------------
 async function carregarImoveis() {
   try {
-    const res = await fetch("/assets/json/dados-imoveis.json");
+    const res = await fetch("assets/json/dados-imoveis.json");
     if (!res.ok) throw new Error("Erro ao carregar JSON de imóveis");
     return await res.json();
   } catch (err) {
@@ -188,15 +188,15 @@ function gerarHTMLImovel(imovel) {
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
 <!-- ESTILOS -->
-<link rel="stylesheet" href="../assets/css/estilo.css">
-<link rel="stylesheet" href="../assets/css/galerias.css">
-<link rel="stylesheet" href="../assets/css/galeria.css">
-<link rel="stylesheet" href="../assets/css/blog.css">
-<link rel="stylesheet" href="../assets/css/backgrounds.css">
-<link rel="stylesheet" href="../assets/css/imoveis-sugeridos.css">
+<link rel="stylesheet" href="assets/css/estilo.css">
+<link rel="stylesheet" href="assets/css/galerias.css">
+<link rel="stylesheet" href="assets/css/galeria.css">
+<link rel="stylesheet" href="assets/css/blog.css">
+<link rel="stylesheet" href="assets/css/backgrounds.css">
+<link rel="stylesheet" href="assets/css/imoveis-sugeridos.css">
 
 <!-- FAVICON -->
-<link rel="icon" href="../assets/img/favicon/fivicon-corretor-dan-schaidt-rio-grande-do-sul.png" type="image/x-icon">
+<link rel="icon" href="assets/img/favicon/fivicon-corretor-dan-schaidt-rio-grande-do-sul.png" type="image/x-icon">
 
 <!-- META OBRIGATÓRIO PARA busca.js -->
 <meta name="description" content="${imovel.descricaoSEO}">
@@ -467,11 +467,11 @@ sugestaoBidirecional({
 </div>
 
      
-        <script src="/assets/js/galerias.js"></script>
-        <script src="/assets/js/script.js"></script>
-        <script src="/assets/js/galeria.js"></script>
-        <script src="/assets/js/imoveis-sugeridos.js"></script>
-        <script src="/assets/js/sugere-blog-imovel.js"></script>
+        <script src="assets/js/galerias.js"></script>
+        <script src="assets/js/script.js"></script>
+        <script src="assets/js/galeria.js"></script>
+        <script src="assets/js/imoveis-sugeridos.js"></script>
+        <script src="assets/js/sugere-blog-imovel.js"></script>
 
 
 </div>
