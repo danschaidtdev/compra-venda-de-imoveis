@@ -13,7 +13,7 @@ let imgsAtivasUnique = [];
 let idxAtualUnique = 0;
 let xIniUnique = null;
 let animUnique = false;
-const placeholderUnique = '/assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png';
+const placeholderUnique = 'assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png';
 
 function vibrarUnique(){ if("vibrate" in navigator) navigator.vibrate(15); }
 
