@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Editor de Imóveis Pro - Dan Schaidt</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #f0f2f5; color: #333; }
+        .container { max-width: 1100px; margin: auto; }
+        .header-actions { 
+            background: white; padding: 20px; border-radius: 8px; 
+            display: flex; gap: 15px; align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky; top: 10px; z-index: 100;
+        }
+        .busca-box { flex: 1; position: relative; }
+        .busca-box input { width: 100%; padding: 10px 15px; border: 2px solid #ddd; border-radius: 6px; }
+        #resultado-count { position: absolute; right: 15px; top: 10px; font-size: 12px; color: #007bff; font-weight: bold; }
+        
+        .imovel-card { background: white; margin-top: 30px; padding: 25px; border-radius: 8px; border-left: 5px solid #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative; }
+        .imovel-card.editado { border-left-color: #28a745; background: #f8fff9; }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; margin-bottom: 15px; padding-bottom: 10px; }
+        .card-header h3 { margin: 0; color: #007bff; }
+        
+        .linha-campo { display: flex; align-items: stretch; border: 1px solid #eee; margin-bottom: 8px; border-radius: 4px; background: #fff; }
+        .tipo-label { width: 220px; background: #f8f9fa; padding: 10px; font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; display: flex; align-items: center; border-right: 2px solid #007bff; flex-shrink: 0; }
+        .dado-input-area { flex: 1; padding: 5px; display: flex; flex-direction: column; }
+        
+        input, textarea { width: 100%; padding: 10px; border: 1px solid transparent; box-sizing: border-box; font-size: 14px; background: none; }
+        input:focus, textarea:focus { outline: none; background: #f0f7ff; }
+
+        /* Estilos para Categoria e Valores */
+        .categoria-container { background: #f8f9fa; padding: 10px; border-radius: 4px; }
+        .checkbox-group { display: flex; gap: 20px; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .checkbox-group label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: bold; color: #007bff; }
+        .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+        
+        .valores-dinamicos { display: flex; gap: 15px; }
+        .campo-valor-extra { flex: 1; display: flex; flex-direction: column; background: #fff; padding: 5px; border: 1px solid #ddd; border-radius: 4px; }
+        .campo-valor-extra label { font-size: 10px; color: #999; margin-left: 5px; }
+        .campo-valor-extra input { padding: 5px; font-weight: bold; color: #28a745; }
+
+        .preview-img { max-width: 150px; max-height: 100px; margin-top: 10px; border-radius: 4px; border: 1px solid #ddd; object-fit: cover; display: block; }
+        .galeria-previews { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        
+        button { cursor: pointer; padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; transition: 0.2s; }
+        .btn-main { background: #007bff; color: white; }
+        .btn-new { background: #6f42c1; color: white; }
+        .btn-save { background: #28a745; color: white; }
+        .btn-delete { background: #dc3545; color: white; padding: 8px 15px; font-size: 12px; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #log { font-size: 13px; color: #555; font-weight: bold; padding: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-actions">
+        <input type="file" id="input-file" accept=".json" style="display:none">
+        <button class="btn-main" onclick="document.getElementById('input-file').click()">📂 1. Abrir dados-imoveis.json</button>
+        
+        <input type="file" id="input-lista-file" accept=".json" style="display:none">
+        <button class="btn-main" id="btn-abrir-lista" onclick="document.getElementById('input-lista-file').click()" disabled>📂 2. Abrir lista-imoveis.json</button>
+
+        <div class="busca-box">
+            <input type="text" id="input-busca" placeholder="🔍 Buscar por título ou slug..." oninput="filtrarImoveis()">
+            <span id="resultado-count"></span>
+        </div>
+
+        <button class="btn-new" id="btn-novo" onclick="criarNovoImovel()" disabled>+ Novo</button>
+        <button class="btn-save" id="btn-gerar-paginas" disabled>💾 Salvar e Gerar Tudo</button>
+    </div>
+    
+    <div id="log">Aguardando arquivos...</div>
+    <div id="editor-lista"></div>
+</div>
+
+<script src="../assets/js/builder.js"></script>
+
+<script>
+let imoveisData = [];
+let listaImoveis = []; 
+let estruturaModelo = null;
+
+document.getElementById('input-file').addEventListener('change', function(e) {
+    const arquivo = e.target.files[0];
+    if (!arquivo) return;
+    const leitor = new FileReader();
+    leitor.onload = function(event) {
+        try {
+            imoveisData = JSON.parse(event.target.result);
+            if(imoveisData.length > 0) estruturaModelo = JSON.parse(JSON.stringify(imoveisData[0]));
+            document.getElementById('log').innerText = `✅ Dados Mestres: ${imoveisData.length} imóveis. Carregue lista-imoveis.json.`;
+            document.getElementById('btn-abrir-lista').disabled = false;
+            renderizarCards();
+        } catch (erro) { alert("Erro ao ler o JSON de dados."); }
+    };
+    leitor.readAsText(arquivo);
+});
+
+document.getElementById('input-lista-file').addEventListener('change', function(e) {
+    const arquivo = e.target.files[0];
+    if (!arquivo) return;
+    const leitor = new FileReader();
+    leitor.onload = function(event) {
+        try {
+            listaImoveis = JSON.parse(event.target.result);
+            document.getElementById('log').innerText = `✅ Tudo pronto!`;
+            document.getElementById('btn-gerar-paginas').disabled = false;
+            document.getElementById('btn-novo').disabled = false;
+        } catch (erro) { alert("Erro ao ler o JSON de lista."); }
+    };
+    leitor.readAsText(arquivo);
+});
+
+function filtrarImoveis() { renderizarCards(document.getElementById('input-busca').value.toLowerCase()); }
+
+function criarNovoImovel() {
+    if (!estruturaModelo) return;
+    const limpar = (obj) => {
+        const novo = {};
+        for (let k in obj) {
+            if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+                novo[k] = limpar(obj[k]);
+            } else if (Array.isArray(obj[k])) { novo[k] = []; }
+            else { novo[k] = (k === "atualizar") ? "sim" : ""; }
+        }
+        return novo;
+    };
+    const novoImovel = limpar(estruturaModelo);
+    novoImovel.titulo = "NOVO IMÓVEL RASCUNHO";
+    novoImovel.slug = "novo-imovel-" + Date.now();
+    imoveisData.unshift(novoImovel);
+    renderizarCards();
+}
+
+function renderizarCards(filtro = "") {
+    const lista = document.getElementById('editor-lista');
+    const countDisplay = document.getElementById('resultado-count');
+    lista.innerHTML = '';
+    let encontrados = 0;
+
+    imoveisData.forEach((imovel, index) => {
+        if (filtro && !imovel.titulo?.toLowerCase().includes(filtro) && !imovel.slug?.toLowerCase().includes(filtro)) return;
+        encontrados++;
+        const card = document.createElement('div');
+        card.className = `imovel-card ${imovel.atualizar === 'sim' ? 'editado' : ''}`;
+        card.innerHTML = `<div class="card-header"><h3>${imovel.titulo || 'Sem Título'}</h3><button class="btn-delete" onclick="excluirImovel(${index})">🗑️ Excluir</button></div>`;
+        gerarCamposRecursivos(imovel, card, index);
+        lista.appendChild(card);
+    });
+    countDisplay.innerText = filtro ? `${encontrados} encontrados` : "";
+}
+
+function gerarCamposRecursivos(obj, container, imovelIndex, prefixo = '') {
+    for (let chave in obj) {
+        if (chave === 'atualizar' || chave === 'valor') continue; // Pula valor pois tratamos dentro da categoria
+        
+        const valor = obj[chave];
+        const caminhoCompleto = prefixo ? `${prefixo}.${chave}` : chave;
+
+        if (typeof valor === 'object' && valor !== null && !Array.isArray(valor)) {
+            gerarCamposRecursivos(valor, container, imovelIndex, caminhoCompleto);
+        } else {
+            const linha = document.createElement('div');
+            linha.className = 'linha-campo';
+            const idPreview = `preview-${imovelIndex}-${caminhoCompleto.replace(/\./g, '-')}`;
+            let inputHtml = '', previewHtml = '';
+
+            if (chave === 'categoria') {
+                const categoriasAtuais = Array.isArray(valor) ? valor : [valor];
+                const valVenda = obj.valor?.venda || 0;
+                const valAluguel = obj.valor?.aluguel || 0;
+
+                inputHtml = `
+                <div class="categoria-container">
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" ${categoriasAtuais.includes('venda') ? 'checked' : ''} onchange="atualizarCategoria(${imovelIndex}, 'venda', this.checked)"> VENDA</label>
+                        <label><input type="checkbox" ${categoriasAtuais.includes('aluguel') ? 'checked' : ''} onchange="atualizarCategoria(${imovelIndex}, 'aluguel', this.checked)"> ALUGUEL</label>
+                    </div>
+                    <div class="valores-dinamicos">
+                        <div class="campo-valor-extra">
+                            <label>R$ VALOR VENDA</label>
+                            <input type="number" value="${valVenda}" oninput="atualizarValor(${imovelIndex}, 'valor.venda', this.value)">
+                        </div>
+                        <div class="campo-valor-extra">
+                            <label>R$ VALOR ALUGUEL</label>
+                            <input type="number" value="${valAluguel}" oninput="atualizarValor(${imovelIndex}, 'valor.aluguel', this.value)">
+                        </div>
+                    </div>
+                </div>`;
+            } 
+            else if (Array.isArray(valor)) {
+                inputHtml = `<textarea oninput="atualizarValor(${imovelIndex}, '${caminhoCompleto}', this.value, true, '${idPreview}')">${valor.join(', ')}</textarea>`;
+                if (chave === 'imagens') {
+                    previewHtml = `<div class="galeria-previews" id="${idPreview}">` + 
+                        valor.map(img => `<img src="${ajustarCaminho(img)}" class="preview-img" onerror="this.style.display='none'">`).join('') + `</div>`;
+                }
+            } else {
+                inputHtml = `<input type="text" value="${valor}" oninput="atualizarValor(${imovelIndex}, '${caminhoCompleto}', this.value, false, '${idPreview}')">`;
+                const isImageField = chave.toLowerCase().includes('imagem') || chave.toLowerCase().includes('capa');
+                if (isImageField) {
+                    previewHtml = `<img src="${ajustarCaminho(valor)}" class="preview-img" id="${idPreview}" onerror="this.style.display='none'">`;
+                }
+            }
+            linha.innerHTML = `<div class="tipo-label">${caminhoCompleto.replace(/\./g, ' > ')}</div><div class="dado-input-area">${inputHtml}${previewHtml}</div>`;
+            container.appendChild(linha);
+        }
+    }
+}
+
+function ajustarCaminho(path) {
+    if (!path || typeof path !== 'string' || path.trim() === "") return '';
+    return path.startsWith('../') ? path.substring(3) : path;
+}
+
+window.atualizarValor = function(index, caminho, valor, isArray = false, idPreview = null) {
+    const chaves = caminho.split('.');
+    let alvo = imoveisData[index];
+    for (let i = 0; i < chaves.length - 1; i++) {
+        if (!alvo[chaves[i]]) alvo[chaves[i]] = {};
+        alvo = alvo[chaves[i]];
+    }
+    
+    let valorFinal = isArray ? valor.split(',').map(s => s.trim()).filter(s => s !== "") : valor;
+    if (!isArray && valor !== "" && !isNaN(valor) && !caminho.includes('slug')) valorFinal = Number(valor);
+    
+    alvo[chaves[chaves.length - 1]] = valorFinal;
+    imoveisData[index]['atualizar'] = 'sim';
+    document.querySelectorAll('.imovel-card')[index]?.classList.add('editado');
+
+    if (idPreview) {
+        const elemento = document.getElementById(idPreview);
+        if (elemento) {
+            if (isArray) {
+                elemento.innerHTML = valorFinal.map(img => `<img src="${ajustarCaminho(img)}" class="preview-img" onerror="this.style.display='none'">`).join('');
+            } else {
+                elemento.src = ajustarCaminho(valorFinal);
+                elemento.style.display = valorFinal.trim() === "" ? 'none' : 'block';
+            }
+        }
+    }
+};
+
+window.atualizarCategoria = function(index, tipo, marcado) {
+    let imovel = imoveisData[index];
+    if (!Array.isArray(imovel.categoria)) imovel.categoria = imovel.categoria ? [imovel.categoria] : [];
+    if (marcado) { if (!imovel.categoria.includes(tipo)) imovel.categoria.push(tipo); } 
+    else { imovel.categoria = imovel.categoria.filter(c => c !== tipo); }
+    imovel['atualizar'] = 'sim';
+    document.querySelectorAll('.imovel-card')[index]?.classList.add('editado');
+};
+
+window.excluirImovel = function(index) {
+    if (confirm("Excluir este imóvel?")) {
+        imoveisData.splice(index, 1);
+        renderizarCards(document.getElementById('input-busca').value.toLowerCase());
+    }
+};
+
+document.getElementById("btn-gerar-paginas").addEventListener("click", async () => {
+    document.getElementById('log').innerText = "⏳ Processando...";
+    for (let imovel of imoveisData) {
+        if (imovel.atualizar === "sim") {
+            const slug = imovel.slug.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "");
+            const htmlConteudo = gerarHTMLImovel({...imovel, slug});
+            baixarArquivo(`${slug}.html`, htmlConteudo, 'text/html');
+
+            const registro = {
+                slug: slug,
+                titulo: imovel.titulo,
+                categoria: imovel.categoria,
+                dataGeracao: new Date().toISOString()
+            };
+            const indexLista = listaImoveis.findIndex(item => item.slug === slug);
+            if (indexLista >= 0) listaImoveis[indexLista] = registro;
+            else listaImoveis.push(registro);
+        }
+    }
+    const dadosParaSalvar = JSON.parse(JSON.stringify(imoveisData));
+    dadosParaSalvar.forEach(i => i.atualizar = ""); 
+    baixarArquivo('dados-imoveis.json', JSON.stringify(dadosParaSalvar, null, 2), 'application/json');
+    setTimeout(() => {
+        baixarArquivo('lista-imoveis.json', JSON.stringify(listaImoveis, null, 2), 'application/json');
+        document.getElementById('log').innerText = "✅ Tudo pronto!";
+        imoveisData.forEach(i => i.atualizar = "");
+        renderizarCards();
+    }, 1000);
+});
+</script>
+</body>
+</html>

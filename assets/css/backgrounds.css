@@ -1,0 +1,47 @@
+.fundoSite {
+        /*background-image: url('/assets/img/corretor-dan-schaidt-foto.png'); Caminho da imagem */
+        /*background-image: url('https://images.pexels.com/photos/13449113/pexels-photo-13449113.jpeg');*/
+        background-image:
+    linear-gradient(
+      to top,
+      var(--cor-opaco-azul) 10%,
+      var(--cor-opaco-azul-escuro) 20%,
+      transparent 70%
+    ),
+    url("https://images.pexels.com/photos/13449113/pexels-photo-13449113.jpeg");
+        background-repeat: no-repeat; /* Não repete a imagem */
+        background-position: center; /* Centraliza a imagem */
+        background-size: cover; /* Ajusta a imagem para cobrir tudo */
+        background-attachment: fixed; /* Imagem fixa ao rolar*/
+        
+}
+.fundoImoveis {
+        background-image:
+    linear-gradient(
+      to top,
+      var(--cor-opaco-azul) 10%,
+      var(--cor-opaco-azul-escuro) 20%,
+      transparent 70%
+    ),
+    url("https://upload.wikimedia.org/wikipedia/commons/d/d3/Pra%C3%A7a_da_Alf%C3%A2ndega_-_Porto_Alegre%2C_RS_%2816826333901%29.jpg");
+        background-repeat: no-repeat; /* Não repete a imagem */
+        background-position: center; /* Centraliza a imagem */
+        background-size: cover; /* Ajusta a imagem para cobrir tudo */
+        background-attachment: fixed; /* Imagem fixa ao rolar*/
+        
+}
+.fundoBlog {
+        background-image:
+    linear-gradient(
+      to top,
+      var(--cor-opaco-azul) 10%,
+      var(--cor-opaco-azul-escuro) 20%,
+      transparent 70%
+    ),
+    url("https://images.pexels.com/photos/13535518/pexels-photo-13535518.jpeg");
+        background-repeat: no-repeat; /* Não repete a imagem */
+        background-position: center; /* Centraliza a imagem */
+        background-size: cover; /* Ajusta a imagem para cobrir tudo */
+        background-attachment: fixed; /* Imagem fixa ao rolar*/
+        
+}

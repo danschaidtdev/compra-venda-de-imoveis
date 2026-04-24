@@ -1,0 +1,111 @@
+<!-- ****************************************************************************-->
+ <!--                           DESTAQUE DA SEMANA                               -->
+<!-- ****************************************************************************-->
+
+<h2 class="efeito-revelador titulo-cursivo">Novos Destaques da Semana</h2>
+<div class="container-geral-galerias efeito-revelador">
+
+  <!-- GALERIA 1 -->
+  <div class="bloco-galeria">
+    <p>GALERIA ÚNICA</p>
+    <div class="galeria-carrossel album-unico" id="galeria7">
+      
+      <!-- Imagem principal -->
+      <div class="img-wrapper">
+        <img src="../assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png"
+             alt="Corretor de Imóveis - Projeto Casa">
+        <span class="material-symbols-outlined icon-expand">open_in_full</span>
+      </div>
+
+      <!-- Imagens extras -->
+      <div class="img-wrapper">
+        <img src="../assets/img/corretor-dan-schaidt-foto.png"
+             alt="Corretor de Imóveis - Projeto Casa 2">
+      </div>
+      <div class="img-wrapper">
+        <img src="/assets/img/corretor-dan-schaidt-foto.png"
+             alt="Corretor de Imóveis - Projeto Casa 3">
+      </div>
+
+    </div>
+    <div class="info-galeria">Projeto Casa</div>
+  </div>
+
+  <!-- GALERIA 2 -->
+  <div class="bloco-galeria">
+    <p>GALERIA ÚNICA</p>
+    <div class="galeria-carrossel album-unico" id="galeria8">
+      
+      <!-- Imagem principal -->
+      <div class="img-wrapper">
+        <img src="../assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png"
+             alt="Corretor de Imóveis - Projeto Prédio">
+        <span class="material-symbols-outlined icon-expand">open_in_full</span>
+      </div>
+
+      <!-- Imagem extra -->
+      <div class="img-wrapper">
+        <img src="../assets/img/corretor-dan-schaidt-foto.png"
+             alt="Corretor de Imóveis - Projeto Prédio 2">
+      </div>
+
+    </div>
+    <div class="info-galeria">Projeto Prédio</div>
+  </div>
+
+  <!-- GALERIA 3 -->
+  <div class="bloco-galeria">
+    <p>GALERIA ÚNICA</p>
+    <div class="galeria-carrossel album-unico" id="galeria9">
+      
+      <!-- Imagem principal -->
+      <div class="img-wrapper">
+        <img src="../assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png"
+             alt="Corretor de Imóveis - Lançamento">
+        <span class="material-symbols-outlined icon-expand">open_in_full</span>
+      </div>
+
+      <!-- Imagem extra -->
+      <div class="img-wrapper">
+        <img src="../assets/img/corretor-dan-schaidt-foto.png"
+             alt="Corretor de Imóveis - Lançamento 2">
+      </div>
+
+    </div>
+    <div class="info-galeria">Lançamento</div>
+  </div>
+  <!-- GALERIA 4 -->
+  <div class="bloco-galeria">
+    <p>GALERIA ÚNICA</p>
+    <div class="galeria-carrossel album-unico" id="galeria10">
+      
+      <!-- Imagem principal -->
+      <div class="img-wrapper">
+        <img src="../assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png"
+             alt="Corretor de Imóveis - Lançamento">
+        <span class="material-symbols-outlined icon-expand">open_in_full</span>
+      </div>
+
+      <!-- Imagem extra -->
+      <div class="img-wrapper">
+        <img src="../assets/img/corretor-dan-schaidt-foto.png"
+             alt="Corretor de Imóveis - Lançamento 2">
+      </div>
+
+    </div>
+    <div class="info-galeria">Lançamento</div>
+  </div>
+
+</div>
+
+<!-- ****************************************************************************-->
+ <!--                           GALERIA GERAL                               -->
+<!-- ****************************************************************************-->
+<p class="titulo-cursivo">Galeria Geral</p>  
+
+<section class="efeito-revelador bloco-galeria">
+  <div class="galeria-carrossel" id="fotosGerais">
+        <img  src="../assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png"
+         alt="Corretor de Imóveis no Rio Grande do Sul, Dan Schaidt">
+  </div>
+</section>

@@ -1,0 +1,22 @@
+Atulizando Imóveis
+>editor.html
+>digita no campo
+>gerar página
+>substituir arquivos e importar página html gerada.
+
+Deletando Imóveis
+>copiar url da página
+>editor.html
+>deleta o  imóvel
+>gerar página
+>susbtituir arquivos
+>deletar página na pasta
+
+Adicionando Imóveis
+>editor.html
+>adiciona as informações
+>gerar página
+>susbtituir arquivos
+>importar página gerada para a pasta
+
+/**************BLOG***********/

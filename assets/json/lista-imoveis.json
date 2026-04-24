@@ -1,0 +1,119 @@
+[
+  {
+    "slug": "casa-centro-01",
+    "titulo": "Casa Espaçosa com Pátio",
+    "categoria": [
+      "venda",
+      "aluguel"
+    ],
+    "dataGeracao": "2026-01-26T08:20:12.956Z",
+    "bairro": "Centro Histórico",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "venda": 450000,
+      "aluguel": 1200
+    },
+    "dataPublicacao": "2026-01-11"
+  },
+  {
+    "slug": "casa-cidade-baixa",
+    "titulo": "Casa com Piscina",
+    "categoria": [
+      "venda",
+      "aluguel"
+    ],
+    "dataGeracao": "2026-01-26T08:20:12.963Z",
+    "bairro": "Centro Histórico",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "venda": 100000,
+      "aluguel": 1000
+    },
+    "dataPublicacao": "2026-01-11"
+  },
+  {
+    "slug": "apartamento-jardim-02",
+    "titulo": "Apartamento moderno Reformado",
+    "categoria": [
+      "aluguel"
+    ],
+    "dataGeracao": "2026-01-26T08:20:12.971Z",
+    "bairro": "Jardim Botânico",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "aluguel": 1800
+    },
+    "dataPublicacao": "2026-01-11"
+  },
+  {
+    "slug": "cobertura-centro-03",
+    "titulo": "Cobertura com vista panorâmica",
+    "categoria": [
+      "venda"
+    ],
+    "dataGeracao": "2026-01-26T08:20:12.978Z",
+    "bairro": "Centro",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "venda": 1200000
+    },
+    "dataPublicacao": "2026-01-11"
+  },
+  {
+    "slug": "apartamento-centro-04",
+    "titulo": "Cobertura exclusiva Lançamento",
+    "categoria": [
+      "venda"
+    ],
+    "dataGeracao": "2026-01-26T08:20:12.984Z",
+    "bairro": "Centro",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "venda": 1300000
+    },
+    "dataPublicacao": "2026-01-11"
+  },
+  {
+    "slug": "box-garagem-centro",
+    "titulo": "Box de garagem",
+    "categoria": [
+      "venda",
+      "aluguel"
+    ],
+    "dataGeracao": "2026-01-26T08:20:12.992Z",
+    "bairro": "Centro",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "venda": 500000,
+      "aluguel": 600
+    },
+    "dataPublicacao": "2026-01-11"
+  },
+  {
+    "slug": "apartamento-menino-deus",
+    "titulo": "Apartamento 2 Quartos e Suíte",
+    "categoria": [
+      "venda"
+    ],
+    "bairro": "Menino Deus",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "venda": 396000,
+      "aluguel": ""
+    },
+    "dataPublicacao": "26/01/26"
+  },
+  {
+    "slug": "cobertura-centro-04",
+    "titulo": "Cobertura exclusiva Lançamento",
+    "categoria": [
+      "venda"
+    ],
+    "bairro": "Centro",
+    "cidade": "Porto Alegre",
+    "valor": {
+      "venda": 1300000
+    },
+    "dataPublicacao": "2026-01-11"
+  }
+]

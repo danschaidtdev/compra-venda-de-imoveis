@@ -1,0 +1,281 @@
+[
+  {
+    "atualizar": "",
+    "numReferencia": 69853,
+    "patrocinado": "",
+    "idDoVideo": "",
+    "slug": "apartamento-menino-deus",
+    "titulo": "Apartamento 2 Quartos e Suíte",
+    "descricao": "Apartamento com 2 quartos um sendo suíte.",
+    "descricaoSEO": "Apartamento com 2 quartos no bairro menino deus em porto alegre com suíte.",
+    "categoria": [
+      "venda"
+    ],
+    "tags": [
+      "suíte",
+      "reformado",
+      "apartamento"
+    ],
+    "bairro": "Menino Deus",
+    "imagens": [
+      "/assets/img/corretor-dan-schaidt-foto.png",
+      "/assets/img/corretor-dan-schaidt-foto.png",
+      "/assets/img/corretor-dan-schaidt-foto.png"
+    ],
+    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "quartos": 2,
+    "banheiros": 2,
+    "garagem": 1,
+    "area": "80m²",
+    "endereco": "Rua João Pessoa",
+    "cidade": "Porto Alegre",
+    "estado": "Rio Grande do Sul",
+    "valor": {
+      "venda": 396000,
+      "aluguel": ""
+    },
+    "dataPublicacao": "26/01/26",
+    "corretor": {
+      "nome": "Dan Schaidt",
+      "creci": 665953
+    }
+  },
+  {
+    "atualizar": "",
+    "numReferencia": "36542",
+    "patrocinado": "sim",
+    "idDoVideo": "jfKfPfyJRdk",
+    "slug": "casa-centro-01",
+    "titulo": "Casa Espaçosa com Pátio",
+    "descricao": "Linda casa com 2 quartos, 2 banheiros, garagem para 2 carros e amplo quintal.",
+    "descricaoSEO": "Casa com 2 quartos à venda no centro, ampla e confortável. Perfeita para famílias.",
+    "categoria": [
+      "venda",
+      "aluguel"
+    ],
+    "tags": [
+      "casa",
+      "rua silenciosa",
+      "piscina",
+      "exclusivo",
+      "lançamento"
+    ],
+    "bairro": "Centro Histórico",
+    "imagens": [
+      "/assets/img/corretor-dan-schaidt-foto.png",
+      "/assets/img/corretor-dan-schaidt-foto.png",
+      "/assets/img/corretor-dan-schaidt-foto.png"
+    ],
+    "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
+    "quartos": 2,
+    "banheiros": 2,
+    "garagem": 2,
+    "area": "120m²",
+    "endereco": "Rua Principal, 123",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "valor": {
+      "venda": 450000,
+      "aluguel": 1200
+    },
+    "dataPublicacao": "2026-01-11",
+    "corretor": {
+      "nome": "Dan Schaidt",
+      "creci": "RS12345"
+    }
+  },
+  {
+    "atualizar": "",
+    "numReferencia": "36542",
+    "idDoVideo": "7ZVLHAjkFD8",
+    "slug": "casa-cidade-baixa",
+    "titulo": "Casa com Piscina",
+    "descricao": "Linda casa com 3 quartos, 2 banheiros, garagem para 2 carros e amplo quintal.",
+    "descricaoSEO": "Casa com 3 quartos à venda no centro, ampla e confortável. Perfeita para famílias.",
+    "categoria": [
+      "venda",
+      "aluguel"
+    ],
+    "tags": [
+      "casa",
+      "quintal",
+      "piscina",
+      "exclusivo"
+    ],
+    "bairro": "Centro Histórico",
+    "imagens": [
+      "/assets/img/corretor-dan-schaidt-foto.png",
+      "/assets/img/imovel-casa-01-2.jpg",
+      "/assets/img/imovel-casa-01-3.jpg",
+      "/assets/img/imovel-casa-01-4.jpg"
+    ],
+    "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
+    "quartos": 3,
+    "banheiros": 2,
+    "garagem": 2,
+    "area": "120m²",
+    "endereco": "Rua Principal, 123",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "valor": {
+      "venda": 100000,
+      "aluguel": 1000
+    },
+    "dataPublicacao": "2026-01-11",
+    "corretor": {
+      "nome": "Dan Schaidt",
+      "creci": "RS12345"
+    }
+  },
+  {
+    "atualizar": "",
+    "numReferencia": "36882",
+    "slug": "apartamento-jardim-02",
+    "titulo": "Apartamento moderno Reformado",
+    "descricao": "Apartamento 2 quartos, varanda, mobiliado, pronto para morar.",
+    "descricaoSEO": "Apartamento de 2 quartos para alugar no Jardim, moderno e mobiliado.",
+    "categoria": [
+      "aluguel"
+    ],
+    "tags": [
+      "apartamento",
+      "mobiliado",
+      "sem fiador"
+    ],
+    "bairro": "Jardim Botânico",
+    "imagens": [
+      "../assets/img/imovel-apto-02-1.jpg",
+      "../assets/img/imovel-apto-02-2.jpg",
+      "../assets/img/imovel-apto-02-3.jpg"
+    ],
+    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "quartos": 2,
+    "banheiros": 1,
+    "garagem": 1,
+    "area": "75m²",
+    "endereco": "Rua das Flores, 45",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "valor": {
+      "aluguel": 1800
+    },
+    "dataPublicacao": "2026-01-11",
+    "corretor": {
+      "nome": "Dan Schaidt",
+      "creci": "RS12345"
+    }
+  },
+  {
+    "atualizar": "",
+    "numReferencia": "36542",
+    "slug": "cobertura-centro-03",
+    "titulo": "Cobertura com vista panorâmica",
+    "descricao": "Cobertura duplex de 4 quartos, piscina privativa e churrasqueira.",
+    "descricaoSEO": "Cobertura de 4 quartos à venda no centro, com piscina privativa e churrasqueira.",
+    "categoria": [
+      "venda"
+    ],
+    "tags": [
+      "cobertura",
+      "alto padrão",
+      "próximo ao centro",
+      "suíte"
+    ],
+    "bairro": "Centro",
+    "imagens": [
+      "../assets/img/imovel-cobertura-01.jpg",
+      "../assets/img/imovel-cobertura-02.jpg",
+      "../assets/img/imovel-cobertura-03.jpg"
+    ],
+    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "quartos": 4,
+    "banheiros": 3,
+    "garagem": 3,
+    "area": "250m²",
+    "endereco": "Avenida Central, 789",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "valor": {
+      "venda": 1200000
+    },
+    "dataPublicacao": "2026-01-11",
+    "corretor": {
+      "nome": "Dan Schaidt",
+      "creci": "RS12345"
+    }
+  },
+  {
+    "atualizar": "",
+    "slug": "cobertura-centro-04",
+    "titulo": "Cobertura exclusiva Lançamento",
+    "descricao": "Cobertura duplex com acabamento premium e vista aberta.",
+    "descricaoSEO": "Cobertura exclusiva à venda no centro de Porto Alegre.",
+    "categoria": [
+      "venda"
+    ],
+    "tags": [
+      "cobertura",
+      "luxo",
+      "investimento"
+    ],
+    "bairro": "Centro",
+    "imagens": [
+      "../assets/img/imovel-cobertura-03-1.jpg",
+      "../assets/img/imovel-cobertura-03-2.jpg",
+      "../assets/img/imovel-cobertura-03-3.jpg"
+    ],
+    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "quartos": 4,
+    "banheiros": 3,
+    "garagem": 3,
+    "area": "250m²",
+    "endereco": "Avenida Central, 789",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "valor": {
+      "venda": 1300000
+    },
+    "dataPublicacao": "2026-01-11",
+    "corretor": {
+      "nome": "Dan Schaidt",
+      "creci": "RS12345"
+    }
+  },
+  {
+    "atualizar": "",
+    "slug": "box-garagem-centro",
+    "titulo": "Box de garagem",
+    "descricao": "Box de garagem coberto, fácil acesso e ótima localização.",
+    "descricaoSEO": "Box de garagem à venda no centro de Porto Alegre.",
+    "categoria": [
+      "venda",
+      "aluguel"
+    ],
+    "tags": [
+      "box",
+      "investimento",
+      "garagem"
+    ],
+    "bairro": "Centro",
+    "imagens": [
+      "../assets/img/box-garagem-01.jpg"
+    ],
+    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "quartos": 0,
+    "banheiros": 0,
+    "garagem": 1,
+    "area": "15m²",
+    "endereco": "Rua Central, 500",
+    "cidade": "Porto Alegre",
+    "estado": "RS",
+    "valor": {
+      "venda": 500000,
+      "aluguel": 600
+    },
+    "dataPublicacao": "2026-01-11",
+    "corretor": {
+      "nome": "Dan Schaidt",
+      "creci": "RS12345"
+    }
+  }
+]

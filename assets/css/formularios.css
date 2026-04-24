@@ -1,0 +1,48 @@
+:root {
+    /* CORES DA MARCA */
+    --cor-dourado:  #E5AD10;
+    --cor-azul: #0F2439;
+    --cor-azul-escuro: #020A11;
+    --cor-preto: #000000;
+    --cor-branco: #FFFFFF;
+
+    /*CORES COM OPACIDADE*/
+    --cor-opaco-dourado:  #e5ac10bd;
+    --cor-opaco-azul: #0f2439be;
+    --cor-opaco-azul-escuro: #020a11c9;
+    --cor-opaco-preto: #000000d3;
+    --cor-opaco-branco: #f7f4f4a8;
+    --cor-baixa-azul: #0f243938;
+
+    --fonte-primaria-cursiva: 'Dancing Script', cursive;
+    --fonte-secundaria: 'Montserrat', sans-serif;
+    --fonte-terciaria: 'Geom', sans-serif;
+    
+}
+
+.formulario-mkt01{
+    background-color: var(--cor-opaco-dourado);
+    padding: 3vh;
+    font-size: large;
+ 
+}
+
+input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px; 
+    border-radius: 10px;
+    border-style: none;
+}
+
+textarea {
+    width: 100%;
+    height: 10vh;
+    border-radius: 10px;
+    border-style: none;
+    padding: 2vh;
+}
+   
+.honeypot {
+    display: none; }

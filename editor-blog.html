@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Escritório Digital - Editor Profissional</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+
+<style>
+:root {
+  --primary: #2563eb; --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0; --text: #1e293b;
+  --danger: #ef4444;
+}
+* { box-sizing: border-box; }
+body { 
+  font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text);
+  height: 100vh; overflow: hidden; display: flex; flex-direction: column;
+}
+
+/* HEADER */
+.top-bar {
+  height: 60px; background: var(--panel); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 20px; justify-content: space-between;
+}
+
+/* MAIN LAYOUT */
+.main-container { display: flex; flex: 1; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 320px; border-right: 1px solid var(--border); background: var(--panel);
+  display: flex; flex-direction: column;
+}
+.search-area { padding: 15px; border-bottom: 1px solid var(--border); }
+.search-area input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); }
+.post-list { overflow-y: auto; flex: 1; }
+.post-item { 
+  padding: 15px; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s;
+}
+.post-item:hover { background: #f1f5f9; }
+.post-item.active { border-left: 4px solid var(--primary); background: #eff6ff; }
+.post-item h4 { margin: 0 0 5px 0; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* EDITOR AREA */
+.editor-area { flex: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+.canvas { max-width: 900px; width: 100%; background: var(--panel); padding: 50px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); margin-bottom: 100px; }
+
+/* INPUTS & BADGES */
+.seo-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; background: #f1f5f9; color: #64748b; font-size: 10px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
+.field-group { margin-bottom: 25px; }
+.h1-input { font-size: 32px; font-weight: 800; border: none; width: 100%; outline: none; color: #0f172a; margin-bottom: 10px;}
+.meta-input { font-size: 13px; color: var(--text); border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px; width: 100%; outline: none; transition: 0.2s; font-family: inherit; }
+.meta-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px #eff6ff; }
+textarea.meta-input { resize: vertical; min-height: 70px; }
+
+/* TAGS SYSTEM */
+.tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.tag-chip { background: #e0e7ff; color: #4338ca; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+.tag-chip:hover { background: #fee2e2; color: #dc2626; text-decoration: line-through; }
+
+/* BLOCOS E AÇÕES */
+.bloco-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 15px; transition: 0.2s; }
+.bloco-item:hover { border-color: #cbd5e1; box-shadow: 0 2px 4px rgb(0 0 0 / 0.05); }
+.bloco-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #cbd5e1; }
+.bloco-actions { display: flex; gap: 8px; }
+
+.btn-icon { background: #ffffff; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.2s; }
+.btn-icon:hover { background: #e2e8f0; border-color: #94a3b8; }
+.btn-danger-icon { background: #fee2e2; border: 1px solid #fecaca; color: #dc2626; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.2s; font-weight: 600;}
+.btn-danger-icon:hover { background: #fca5a5; }
+
+.toolbar-blocos { display: flex; gap: 10px; margin-top: 20px; padding: 20px; border: 2px dashed #e2e8f0; border-radius: 8px; justify-content: center; }
+
+/* FORMATAÇÃO DE TEXTO RICA */
+.format-bar { background: #f1f5f9; padding: 5px; border-radius: 4px 4px 0 0; border: 1px solid #cbd5e1; border-bottom: none; display: flex; gap: 5px; }
+.format-btn { padding: 4px 8px; background: white; border: 1px solid #cbd5e1; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s;}
+.format-btn:hover { background: #e2e8f0; }
+.rich-text-input { min-height: 100px; padding: 15px; border: 1px solid #cbd5e1; border-radius: 0 0 4px 4px; background: white; outline: none; line-height: 1.6; }
+.rich-text-input:focus { border-color: var(--primary); }
+
+/* BOTOES GERAIS */
+.btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-new { background: #10b981; color: white; }
+.btn-new:hover { background: #059669; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-danger:hover { background: #b91c1c; }
+
+hr { border: 0; border-top: 1px solid var(--border); margin: 30px 0; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div><strong>Escritório Digital</strong> | <span id="status-msg">Aguardando...</span></div>
+  <div style="display: flex; gap: 10px;">
+    <input type="file" id="input-file" accept=".json" hidden>
+    <button class="btn btn-new" onclick="document.getElementById('input-file').click()">📂 Abrir JSON</button>
+    <button class="btn btn-new" onclick="novoPost()">+ Novo Post</button>
+    <button class="btn btn-danger" id="btn-excluir" onclick="excluirPost()" style="display: none;">🗑️ Excluir Post</button>
+    <button class="btn btn-primary" id="btn-salvar-editor" disabled>💾 Salvar Tudo</button>
+  </div>
+</div>
+
+<div class="main-container">
+  <aside class="sidebar">
+    <div class="search-area"><input type="text" placeholder="Buscar post..." oninput="renderLista(this.value.toLowerCase())"></div>
+    <div class="post-list" id="post-list"></div>
+  </aside>
+
+  <main class="editor-area" id="editor-area" style="display: none;">
+    <div class="canvas" id="canvas"></div>
+  </main>
+</div>
+
+<script src="../assets/js/builder-blog.js"></script>
+<script>
+let posts = [];
+let postAtualIndex = -1;
+
+// ---------------------------------
+// EVENTOS INICIAIS
+// ---------------------------------
+document.getElementById('input-file').addEventListener('change', e => {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    posts = JSON.parse(ev.target.result);
+    document.getElementById('status-msg').innerText = `✅ ${posts.length} posts carregados`;
+    document.getElementById('btn-salvar-editor').disabled = false;
+    renderLista();
+  };
+  reader.readAsText(e.target.files[0]);
+});
+
+document.getElementById('btn-salvar-editor').onclick = async () => {
+  const log = document.getElementById('status-msg');
+  log.innerText = "⏳ Verificando arquivos em /blog...";
+  
+  for (let p of posts) {
+    let arquivoExiste = false;
+    
+    // Tenta verificar se o arquivo existe na pasta /blog/
+    try {
+      // O caminho supõe que o blog está na raiz/blog em relação ao editor
+      const response = await fetch(`../blog/${p.slug}.html`, { method: 'HEAD' });
+      if (response.ok) arquivoExiste = true;
+    } catch (err) {
+      arquivoExiste = false; // Se der erro de CORS ou não encontrar, assume que não existe localmente
+    }
+
+    // Se o post foi modificado OU se o arquivo não existe, ele gera e baixa
+    if (p.atualizar === "sim" || !arquivoExiste) {
+      if (typeof gerarHTMLPost === "function") {
+        log.innerText = `Gerando: ${p.slug}.html...`;
+        const html = gerarHTMLPost(p);
+        if (typeof baixarArquivo === "function") {
+            baixarArquivo(`${p.slug}.html`, html);
+        } else {
+            // Fallback caso baixarArquivo não esteja no builder-blog.js
+            const blob = new Blob([html], { type: "text/html" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${p.slug}.html`;
+            a.click();
+        }
+        await new Promise(r => setTimeout(r, 600)); // Pequeno delay para o navegador processar múltiplos downloads
+      }
+      p.atualizar = ""; 
+    }
+  }
+  
+  // Salva o JSON atualizado
+  const blobJson = new Blob([JSON.stringify(posts, null, 2)], { type: "application/json" });
+  const urlJson = URL.createObjectURL(blobJson);
+  const aJson = document.createElement("a");
+  aJson.href = urlJson;
+  aJson.download = 'dados-blog.json';
+  document.body.appendChild(aJson);
+  aJson.click();
+  aJson.remove();
+  
+  log.innerText = "✅ Sincronização concluída!";
+  renderLista();
+};
+
+// ---------------------------------
+// LISTA DE POSTS
+// ---------------------------------
+function renderLista(filtro = "") {
+  const lista = document.getElementById('post-list');
+  lista.innerHTML = '';
+  posts.forEach((p, i) => {
+    
+    // Converte os valores para minúsculo para a busca, com fallback para string vazia caso o campo não exista
+    const titulo = (p.tituloPrincipal || "").toLowerCase();
+    const ref = (p.numReferencia || "").toLowerCase();
+    
+    // Se houver um filtro, verifica se ele NÃO está incluído nem no título E nem na referência. Se não estiver, ignora o post.
+    if (filtro && !(titulo.includes(filtro) || ref.includes(filtro))) return;
+    
+    const item = document.createElement('div');
+    item.className = `post-item ${i === postAtualIndex ? 'active' : ''}`;
+    item.onclick = () => carregarPost(i);
+    item.innerHTML = `
+      <h4>${p.tituloPrincipal || 'Sem título'} ${p.atualizar === 'sim' ? '*(Modificado)' : ''}</h4>
+      <span>Ref: ${p.numReferencia || 'Sem ref'}</span>
+    `;
+    lista.appendChild(item);
+  });
+}
+
+// ---------------------------------
+// CARREGAR POST NO EDITOR
+// ---------------------------------
+function carregarPost(index) {
+  postAtualIndex = index;
+  document.getElementById('btn-excluir').style.display = 'block';
+  renderLista();
+  const post = posts[index];
+  
+  if(!post.blocos) post.blocos = [];
+  if(post.blocos.length === 0) {
+    const addB = (t, v) => { if(v) post.blocos.push({tipo: t, valor: v}); };
+    if (post.introducao) {
+      addB('p', post.introducao.paragrafo1); addB('p', post.introducao.paragrafo2); addB('p', post.introducao.paragrafo3);
+    }
+    for(let i=1; i<=5; i++) {
+      if(post[`secao${i}`]) {
+        addB('h2', post[`secao${i}`].tituloSecao); addB('h3', post[`secao${i}`].subtituloSecao);
+        addB('p', post[`secao${i}`].paragrafo1); addB('p', post[`secao${i}`].paragrafo2); addB('p', post[`secao${i}`].paragrafo3);
+      }
+    }
+    if (post.conclusao) { addB('p', post.conclusao.paragrafo1); addB('p', post.conclusao.paragrafo2); }
+  }
+
+  const canvas = document.getElementById('canvas');
+  document.getElementById('editor-area').style.display = 'flex';
+
+  canvas.innerHTML = `
+    <div class="field-group">
+      <span class="seo-badge">H1 - Título Principal</span>
+      <input class="h1-input" value="${post.tituloPrincipal || ''}" oninput="update(${index}, 'tituloPrincipal', this.value)">
+      <span class="seo-badge">Subtítulo da Página</span>
+      <input class="meta-input" value="${post.subtituloPrincipal || ''}" oninput="update(${index}, 'subtituloPrincipal', this.value)">
+    </div>
+
+    <div class="grid-2">
+      <div class="field-group">
+        <span class="seo-badge">ID Referência</span>
+        <input class="meta-input" value="${post.numReferencia || ''}" oninput="update(${index}, 'numReferencia', this.value)">
+      </div>
+      <div class="field-group">
+        <span class="seo-badge">URL Slug</span>
+        <input class="meta-input" value="${post.slug || ''}" oninput="update(${index}, 'slug', this.value)">
+      </div>
+    </div>
+
+    <hr>
+    <h3>Imagens e Categoria</h3>
+    
+    <div class="grid-2">
+      <div class="field-group">
+        <span class="seo-badge">Categoria</span>
+        <input class="meta-input" value="${post.categoria || ''}" oninput="update(${index}, 'categoria', this.value)">
+      </div>
+      <div class="field-group">
+        <span class="seo-badge">Imagem de Capa (URL)</span>
+        <input class="meta-input" value="${post.imagemCapa || ''}" oninput="update(${index}, 'imagemCapa', this.value); document.getElementById('preview-capa').src = this.value;">
+        <img id="preview-capa" src="${post.imagemCapa || ''}" style="max-width: 200px; max-height: 150px; margin-top: 10px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); display: ${post.imagemCapa ? 'block' : 'none'};" onerror="this.style.display='none'" onload="this.style.display='block'">
+      </div>
+    </div>
+    
+    <div class="field-group">
+      <span class="seo-badge">Texto Alt (Capa)</span>
+      <input class="meta-input" value="${post.textoAltImagemCapa || ''}" oninput="update(${index}, 'textoAltImagemCapa', this.value)">
+    </div>
+    
+    <div class="field-group">
+      <span class="seo-badge">Galeria (URLs separadas por vírgula)</span>
+      <textarea class="meta-input" oninput="updateArray(${index}, 'imagens', this.value); renderGaleriaPreview(this.value)">${(post.imagens || []).join(',\n')}</textarea>
+      <div id="preview-galeria" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+    </div>
+
+    <hr>
+    <h3>SEO e Publicação</h3>
+    
+    <div class="field-group">
+      <span class="seo-badge">Descrição Resumo</span>
+      <textarea class="meta-input" oninput="update(${index}, 'descricaoResumo', this.value)">${post.descricaoResumo || ''}</textarea>
+    </div>
+    <div class="field-group">
+      <span class="seo-badge">Descrição SEO</span>
+      <textarea class="meta-input" oninput="update(${index}, 'descricaoSEO', this.value)">${post.descricaoSEO || ''}</textarea>
+    </div>
+
+    <div class="grid-2">
+      <div class="field-group">
+        <span class="seo-badge">Instagram</span>
+        <textarea class="meta-input" oninput="updateNested(${index}, 'socialResumo', 'instagram', this.value)">${post.socialResumo?.instagram || ''}</textarea>
+      </div>
+      <div class="field-group">
+        <span class="seo-badge">Texto CTA</span>
+        <input class="meta-input" value="${post.chamadaParaAcao?.textoCTA || ''}" oninput="updateNested(${index}, 'chamadaParaAcao', 'textoCTA', this.value)">
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field-group">
+        <span class="seo-badge">Autor</span>
+        <input class="meta-input" value="${post.autorNome || ''}" oninput="update(${index}, 'autorNome', this.value)">
+      </div>
+      <div class="field-group">
+        <span class="seo-badge">Leitura</span>
+        <input class="meta-input" value="${post.tempoLeitura || ''}" oninput="update(${index}, 'tempoLeitura', this.value)">
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field-group">
+        <span class="seo-badge">Data Publicação</span>
+        <input type="date" class="meta-input" value="${post.dataPublicacao || ''}" oninput="update(${index}, 'dataPublicacao', this.value)">
+      </div>
+      <div class="field-group">
+        <span class="seo-badge">Última Atualização</span>
+        <input type="date" class="meta-input" value="${post.dataAtualizacao || ''}" oninput="update(${index}, 'dataAtualizacao', this.value)">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <span class="seo-badge">Tags (Enter para add)</span>
+      <input type="text" class="meta-input" onkeydown="handleTags(event, ${index})">
+      <div class="tags-container" id="tags-container-${index}"></div>
+    </div>
+
+    <hr>
+    <h3>Conteúdo Dinâmico</h3>
+    <div id="blocos-container"></div>
+
+    <div class="toolbar-blocos">
+      <button class="btn btn-new" onclick="addBloco(${index}, 'h2')">+ H2</button>
+      <button class="btn btn-new" onclick="addBloco(${index}, 'h3')">+ H3</button>
+      <button class="btn btn-new" onclick="addBloco(${index}, 'p')">+ Parágrafo</button>
+      <button class="btn btn-new" onclick="addBloco(${index}, 'img')">+ Imagem</button>
+      <button class="btn btn-new" onclick="addBloco(${index}, 'html')">+ HTML</button>
+    </div>
+  `;
+  
+  renderTags(index);
+  renderBlocos(index);
+  renderGaleriaPreview((post.imagens || []).join(',')); 
+}
+
+// ---------------------------------
+// FUNÇÕES DE EXCLUSÃO
+// ---------------------------------
+function excluirPost() {
+  if (postAtualIndex === -1) return;
+  if (confirm(`Tem certeza que deseja excluir o post "${posts[postAtualIndex].tituloPrincipal}"?`)) {
+    posts.splice(postAtualIndex, 1);
+    postAtualIndex = -1;
+    document.getElementById('editor-area').style.display = 'none';
+    document.getElementById('btn-excluir').style.display = 'none';
+    document.getElementById('status-msg').innerText = "Post removido da lista.";
+    renderLista();
+  }
+}
+
+// ---------------------------------
+// FUNÇÕES DE TAGS
+// ---------------------------------
+function renderTags(index) {
+  const container = document.getElementById(`tags-container-${index}`);
+  if (!container) return;
+  const tags = posts[index].tags || [];
+  container.innerHTML = tags.map((t, i) => `
+    <span class="tag-chip" onclick="removerTag(${index}, ${i})">${t} &times;</span>
+  `).join('');
+}
+
+function handleTags(e, index) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const val = e.target.value.trim();
+    if (val) {
+      if (!posts[index].tags) posts[index].tags = [];
+      posts[index].tags.push(val);
+      posts[index].atualizar = "sim";
+      e.target.value = '';
+      renderTags(index);
+      renderLista();
+    }
+  }
+}
+
+function removerTag(index, tagIndex) {
+  posts[index].tags.splice(tagIndex, 1);
+  posts[index].atualizar = "sim";
+  renderTags(index);
+  renderLista();
+}
+
+// ---------------------------------
+// FUNÇÕES DE BLOCOS
+// ---------------------------------
+function renderBlocos(index) {
+  const container = document.getElementById('blocos-container');
+  const blocos = posts[index].blocos || [];
+  
+  container.innerHTML = blocos.map((b, i) => {
+    let inputHtml = '';
+    
+    if (b.tipo === 'img') {
+      inputHtml = `
+        <div style="display: flex; gap: 15px; align-items: flex-start;">
+          <div style="flex: 1;">
+            <input class="meta-input" placeholder="URL da Imagem" value="${b.url || ''}" oninput="updateBloco(${index}, ${i}, 'url', this.value); document.getElementById('preview-bloco-${i}').src = this.value;">
+            <input class="meta-input" style="margin-top:5px" placeholder="Alt" value="${b.alt || ''}" oninput="updateBloco(${index}, ${i}, 'alt', this.value)">
+          </div>
+          <img id="preview-bloco-${i}" src="${b.url || ''}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);">
+        </div>
+      `;
+    } else if (b.tipo === 'html') {
+      inputHtml = `<textarea class="meta-input" style="font-family: monospace; min-height: 120px;" oninput="updateBloco(${index}, ${i}, 'valor', this.value)">${b.valor || ''}</textarea>`;
+    } else {
+      inputHtml = `
+        <div class="format-bar">
+          <button class="format-btn" onclick="execFormat('bold')">B</button>
+          <button class="format-btn" onclick="execFormat('italic')">I</button>
+          <button class="format-btn" onclick="execFormat('createLink', prompt('URL:'))">Link</button>
+        </div>
+        <div class="rich-text-input" contenteditable="true" oninput="updateBloco(${index}, ${i}, 'valor', this.innerHTML)">${b.valor || ''}</div>
+      `;
+    }
+
+    return `
+      <div class="bloco-item">
+        <div class="bloco-header">
+          <span class="seo-badge">${b.tipo.toUpperCase()}</span>
+          <div class="bloco-actions">
+            <button class="btn-icon" onclick="moverBloco(${index}, ${i}, -1)">⬆️</button>
+            <button class="btn-icon" onclick="moverBloco(${index}, ${i}, 1)">⬇️</button>
+            <button class="btn-danger-icon" onclick="removerBloco(${index}, ${i})">🗑️</button>
+          </div>
+        </div>
+        ${inputHtml}
+      </div>
+    `;
+  }).join('');
+}
+
+function execFormat(cmd, val = null) { document.execCommand(cmd, false, val); }
+
+function addBloco(index, tipo) {
+  const bloco = tipo === 'img' ? {tipo, url:'', alt:''} : {tipo, valor:''};
+  posts[index].blocos.push(bloco);
+  posts[index].atualizar = "sim";
+  renderBlocos(index);
+  renderLista();
+}
+
+function removerBloco(index, i) {
+  if(confirm("Excluir este bloco?")) {
+    posts[index].blocos.splice(i, 1);
+    posts[index].atualizar = "sim";
+    renderBlocos(index);
+    renderLista();
+  }
+}
+
+function moverBloco(index, i, direcao) {
+  const blocos = posts[index].blocos;
+  if (i + direcao < 0 || i + direcao >= blocos.length) return; 
+  const temp = blocos[i];
+  blocos[i] = blocos[i + direcao];
+  blocos[i + direcao] = temp;
+  posts[index].atualizar = "sim";
+  renderBlocos(index);
+  renderLista();
+}
+
+function updateBloco(index, i, field, val) {
+  posts[index].blocos[i][field] = val;
+  posts[index].atualizar = "sim";
+  renderLista();
+}
+
+function update(i, field, val) {
+  posts[i][field] = val;
+  posts[i].atualizar = "sim";
+  renderLista();
+}
+
+function updateNested(i, parent, field, val) {
+  if (!posts[i][parent]) posts[i][parent] = {};
+  posts[i][parent][field] = val;
+  posts[i].atualizar = "sim";
+  renderLista();
+}
+
+function updateArray(i, field, val) {
+  posts[i][field] = val.split(',').map(s => s.trim()).filter(s => s !== '');
+  posts[i].atualizar = "sim";
+  renderLista();
+}
+
+function renderGaleriaPreview(val) {
+  const urls = val.split(',').map(s => s.trim()).filter(s => s !== '');
+  const container = document.getElementById('preview-galeria');
+  if(container) {
+    container.innerHTML = urls.map(url => `<img src="${url}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">`).join('');
+  }
+}
+
+function novoPost() {
+  const p = {
+    numReferencia: Date.now().toString().slice(-4),
+    slug: "novo-post-" + Date.now(),
+    tituloPrincipal: "Título Novo",
+    subtituloPrincipal: "",
+    descricaoResumo: "",
+    descricaoSEO: "",
+    categoria: "Notícias",
+    tags: [],
+    autorNome: "Dan Schaidt",
+    dataPublicacao: new Date().toISOString().split('T')[0],
+    dataAtualizacao: "",
+    tempoLeitura: "5 minutos",
+    imagemCapa: "",
+    textoAltImagemCapa: "",
+    imagens: [],
+    chamadaParaAcao: { textoCTA: "" },
+    socialResumo: { instagram: "" },
+    blocos: [],
+    atualizar: "sim"
+  };
+  posts.unshift(p);
+  carregarPost(0);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Páginas de Imóveis - Corretor Dan Schaidt</title>
+
+<!-- Estilos básicos -->
+<link rel="stylesheet" href="../assets/css/estilo.css">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    background-color: #f5f5f5;
+  }
+  h1 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  #btn-gerar-paginas {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  #btn-gerar-paginas:hover {
+    background-color: #0056b3;
+  }
+  #log {
+    margin-top: 2rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    font-family: monospace;
+    font-size: 0.9rem;
+  }
+  .log-info { color: #333; }
+  .log-success { color: green; }
+  .log-warn { color: orange; }
+  .log-error { color: red; }
+</style>
+</head>
+<body>
+
+<h1>Gerador de Páginas de Imóveis</h1>
+<p>Clique no botão abaixo para gerar páginas HTML para imóveis que ainda não possuem página.</p>
+<button id="btn-gerar-paginas">Gerar Páginas</button>
+
+<div id="log"></div>
+
+<!-- Script do builder -->
+<script src="../assets/js/builder.js"></script>
+<script>
+  // Redireciona console.log para o log visual na página
+  const logContainer = document.getElementById("log");
+  function logMensagem(msg, tipo = "info") {
+    const p = document.createElement("p");
+    p.textContent = msg;
+    p.className = "log-" + tipo;
+    logContainer.appendChild(p);
+    logContainer.scrollTop = logContainer.scrollHeight;
+  }
+
+  // Sobrescreve console.log/warn/error para log visual
+  const _log = console.log;
+  const _warn = console.warn;
+  const _error = console.error;
+
+  console.log = (...args) => { logMensagem(args.join(" "), "success"); _log(...args); };
+  console.warn = (...args) => { logMensagem(args.join(" "), "warn"); _warn(...args); };
+  console.error = (...args) => { logMensagem(args.join(" "), "error"); _error(...args); };
+</script>
+
+</body>
+</html>
