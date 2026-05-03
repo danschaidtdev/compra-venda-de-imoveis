@@ -59,7 +59,7 @@ function imoveisPorPost(post, dadosImoveis) {
 
 function gerarCard(item, tipo = 'blog') {
   const titulo = tipo === 'blog' ? item.tituloPrincipal : item.titulo;
-  const link   = tipo === 'blog' ? `/blog/${item.slug}.html` : `/imovel/${item.slug}.html`;
+  const link   = tipo === 'blog' ? `/blog/${item.slug}.html` : `imovel/${item.slug}.html`;
   const img    = item.imagens?.[0] || '';
 
   return `
@@ -209,7 +209,7 @@ ${metaTagsHTML}  <!-- NOVO: tags personalizadas -->
 <meta property="og:title" content="${imovel.titulo}">
 <meta property="og:image" content="${imovel.imagemCapa}">
 
-<link rel="canonical" href="https://seusite.com.br/imovel/${imovel.slug}.html">
+<link rel="canonical" href="https://danschaidtdev.github.io/compra-venda-de-imoveis/imovel/${imovel.slug}.html">
 
 <script type="application/ld+json">
 ${JSON.stringify(schema, null, 2)}
@@ -504,7 +504,7 @@ function baixarArquivo(nome, conteudo, tipo = "text/html") {
 // ------------------------
 async function paginaExiste(slug) {
   try {
-    const res = await fetch(`/imovel/${slug}.html`, { method: "HEAD" });
+    const res = await fetch(`imovel/${slug}.html`, { method: "HEAD" });
     return res.ok;
   } catch (err) {
     return false;
