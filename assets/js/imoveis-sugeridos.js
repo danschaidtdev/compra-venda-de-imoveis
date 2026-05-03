@@ -7,7 +7,7 @@ let retornoTimer = null;
 
 function getSlugAtual() {
   return window.location.pathname
-    .replace("/imovel/", "")
+    .replace("imovel/", "")
     .replace(".html", "")
     .trim()
     .toLowerCase();
@@ -108,7 +108,7 @@ function renderizarSugestoes(lista) {
 
   return `
     <article class="card-imovel efeito-eleva">
-      <a href="/imovel/${imovel.slug}.html">
+      <a href="imovel/${imovel.slug}.html">
         <img 
           src="${imovel.imagemCapa}"
           alt="${imovel.titulo}"

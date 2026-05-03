@@ -396,7 +396,7 @@ function renderizarResultados(lista) {
       <div class="galeria-carrossel">
         <img src="${img1}">
         <img src="${img2}">
-       <a href="/imovel/${i.slug}.html" target="_blank" class="ver-mais">
+       <a href="imovel/${i.slug}.html" target="_blank" class="ver-mais">
         <img src="${img3}" alt="${i.descricao}">
         <span>Ver + fotos</span>
         </a>
@@ -422,7 +422,7 @@ function renderizarResultados(lista) {
     ? `<div>Aluguel: <strong>${formatarMoeda(i.valor.aluguel)}</strong></div>`
     : ""}
 
-      <a href="/imovel/${i.slug}.html" target="_blank" rel="noopener noreferrer" class="card-btn">
+      <a href="imovel/${i.slug}.html" target="_blank" rel="noopener noreferrer" class="card-btn">
       Ver Detalhes</a>
 
     </div>
