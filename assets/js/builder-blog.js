@@ -5,7 +5,7 @@
 // ------------------------
 async function carregarPosts() {
   try {
-    const res = await fetch("assets/json/dados-blog.json");
+    const res = await fetch("../assets/json/dados-blog.json");
     if (!res.ok) throw new Error("Erro ao carregar JSON do blog");
     return await res.json();
   } catch (err) {
@@ -19,8 +19,8 @@ async function carregarPosts() {
 // ================================
 async function gerarCarrosselParaBlog() {
   const [imoveis, posts] = await Promise.all([
-    fetch("assets/json/dados-imoveis.json").then(r => r.json()),
-    fetch("assets/json/dados-blog.json").then(r => r.json())
+    fetch("../assets/json/dados-imoveis.json").then(r => r.json()),
+    fetch("../assets/json/dados-blog.json").then(r => r.json())
   ]);
 
   const metaSlug = document.querySelector('meta[name="slug"]')?.content || '';
@@ -218,7 +218,7 @@ if (post.blocos && post.blocos.length > 0) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="icon" href="assets/img/favicon/fivicon-corretor-dan-schaidt-rio-grande-do-sul.png" type="image/x-icon">
+<link rel="icon" href="../assets/img/favicon/fivicon-corretor-dan-schaidt-rio-grande-do-sul.png" type="image/x-icon">
 
 <title>${post.tituloPrincipal}</title>
 
