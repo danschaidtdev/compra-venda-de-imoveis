@@ -188,15 +188,15 @@ function gerarHTMLImovel(imovel) {
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
 <!-- ESTILOS -->
-<link rel="stylesheet" href="assets/css/estilo.css">
-<link rel="stylesheet" href="assets/css/galerias.css">
-<link rel="stylesheet" href="assets/css/galeria.css">
-<link rel="stylesheet" href="assets/css/blog.css">
-<link rel="stylesheet" href="assets/css/backgrounds.css">
-<link rel="stylesheet" href="assets/css/imoveis-sugeridos.css">
+<link rel="stylesheet" href="../assets/css/estilo.css">
+<link rel="stylesheet" href="../assets/css/galerias.css">
+<link rel="stylesheet" href="../assets/css/galeria.css">
+<link rel="stylesheet" href="../assets/css/blog.css">
+<link rel="stylesheet" href="../assets/css/backgrounds.css">
+<link rel="stylesheet" href="../assets/css/imoveis-sugeridos.css">
 
 <!-- FAVICON -->
-<link rel="icon" href="assets/img/favicon/fivicon-corretor-dan-schaidt-rio-grande-do-sul.png" type="image/x-icon">
+<link rel="icon" href="../assets/img/favicon/fivicon-corretor-dan-schaidt-rio-grande-do-sul.png" type="image/x-icon">
 
 <!-- META OBRIGATÓRIO PARA busca.js -->
 <meta name="description" content="${imovel.descricaoSEO}">
@@ -236,7 +236,7 @@ ${JSON.stringify(schema, null, 2)}
   <div class="moldura-nav blocoMenu">
   <div id="logotipo">
     <a href="/index.html">
-      <img src="assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
+      <img src="../assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
     </a>
   </div>
 
@@ -332,7 +332,7 @@ ${JSON.stringify(schema, null, 2)}
             <div class="botaoCTA" style="margin-top: 3vh;">
                   <button type="button" >Agendar uma Visita</button>
               </div>
-          <img class=" img-decorada" src="assets/img/completo-fundo-azul-amarelo.webp"
+          <img class=" img-decorada" src="../assets/img/completo-fundo-azul-amarelo.webp"
               alt="Corretor de Imóveis no Rio Grande do Sul, Dan Schaidt">
               
         </div>
@@ -394,7 +394,7 @@ sugestaoBidirecional({
   *-*%20_${imovel.cidade}_%0A
   " target="_blank" rel="noopener noreferrer">
     <div class="botaoFIXO">
-      <img src="assets/img/img-geral/logo-whatsapp.png" alt="">
+      <img src="../assets/img/img-geral/logo-whatsapp.png" alt="">
 
     </div>
 </a>  
@@ -467,11 +467,11 @@ sugestaoBidirecional({
 </div>
 
      
-        <script src="assets/js/galerias.js"></script>
-        <script src="assets/js/script.js"></script>
-        <script src="assets/js/galeria.js"></script>
-        <script src="assets/js/imoveis-sugeridos.js"></script>
-        <script src="assets/js/sugere-blog-imovel.js"></script>
+        <script src="../assets/js/galerias.js"></script>
+        <script src="../assets/js/script.js"></script>
+        <script src="../assets/js/galeria.js"></script>
+        <script src="../assets/js/imoveis-sugeridos.js"></script>
+        <script src="../assets/js/sugere-blog-imovel.js"></script>
 
 
 </div>
@@ -524,7 +524,7 @@ async function gerarPaginas() {
   // Carregar lista existente
   let lista = [];
   try {
-    const res = await fetch("assets/json/lista-imoveis.json");
+    const res = await fetch("../assets/json/lista-imoveis.json");
     if (res.ok) lista = await res.json();
   } catch {
     console.warn("Não foi possível carregar lista-imoveis.json. Será criada uma nova.");

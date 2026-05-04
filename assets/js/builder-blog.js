@@ -249,12 +249,12 @@ ${post.tags?.map(tag => `<meta property="article:tag" content="${tag}">`).join("
 <link rel="canonical" href="https://seusite.com.br/blog/${post.slug}.html">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
 
-<link rel="stylesheet" href="assets/css/estilo.css">
-<link rel="stylesheet" href="assets/css/galerias.css">
-<link rel="stylesheet" href="assets/css/galeria.css">
-<link rel="stylesheet" href="assets/css/blog.css">
-<link rel="stylesheet" href="assets/css/backgrounds.css">
-<link rel="stylesheet" href="assets/css/imoveis-sugeridos.css">
+<link rel="stylesheet" href="../assets/css/estilo.css">
+<link rel="stylesheet" href="../assets/css/galerias.css">
+<link rel="stylesheet" href="../assets/css/galeria.css">
+<link rel="stylesheet" href="../assets/css/blog.css">
+<link rel="stylesheet" href="../assets/css/backgrounds.css">
+<link rel="stylesheet" href="../assets/css/imoveis-sugeridos.css">
 
 <script type="application/ld+json">
 ${JSON.stringify(schema, null, 2)}
@@ -269,7 +269,7 @@ ${JSON.stringify(schema, null, 2)}
   <div class="moldura-nav blocoMenu">
   <div id="logotipo">
     <a href="/index.html">
-      <img src="assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
+      <img src="../assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
     </a>
   </div>
 
@@ -382,11 +382,11 @@ if (typeof sugestaoBidirecional === 'function') {
     </div>
 </div>
 
-</div></div><script src="assets/js/galerias.js"></script>
-  <script src="assets/js/script.js"></script>
-  <script src="assets/js/galeria.js"></script>
-  <script src="assets/js/imoveis-sugeridos.js"></script>
-  <script src="assets/js/sugere-blog-imovel.js"></script>
+</div></div><script src="../assets/js/galerias.js"></script>
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/galeria.js"></script>
+  <script src="../assets/js/imoveis-sugeridos.js"></script>
+  <script src="../assets/js/sugere-blog-imovel.js"></script>
 
 </body>
 </html>`;
