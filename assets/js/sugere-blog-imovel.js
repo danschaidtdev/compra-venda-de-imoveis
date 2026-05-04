@@ -206,7 +206,7 @@ function initCarrosselHorizontal(wrapper) {
 // =======================================
 const GRID = document.getElementById('blogGrid');
 const FILTROS = document.getElementById('filtrosCategorias');
-const JSON_URL = '../assets/json/dados-blog.json';
+const JSON_URL = 'assets/json/dados-blog.json';
 
 let posts = [];
 let categoriaAtiva = 'todas';
@@ -326,8 +326,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById('sugestao-dinamica')) {
       sugestaoBidirecional({
-        urlImoveis: '../assets/json/dados-imoveis.json',
-        urlBlog: '../assets/json/dados-blog.json',
+        urlImoveis: 'assets/json/dados-imoveis.json',
+        urlBlog: 'assets/json/dados-blog.json',
         containerId: 'sugestao-dinamica',
         tipoVisual: isBlog ? 'imovel' : 'blog'
       });
