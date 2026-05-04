@@ -16,7 +16,7 @@ let xInicial = null;
 let animando = false;
 
 // Placeholder leve enquanto a imagem real carrega
-const placeholder = 'assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png';
+const placeholder = '../assets/img/logo-completo-png-branco-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png';
 
 // --- FUNÇÃO AUXILIAR DE VIBRAÇÃO ---
 function vibrar() {
