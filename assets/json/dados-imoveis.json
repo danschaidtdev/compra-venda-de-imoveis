@@ -18,11 +18,11 @@
     ],
     "bairro": "Menino Deus",
     "imagens": [
-      "/assets/img/corretor-dan-schaidt-foto.png",
-      "/assets/img/corretor-dan-schaidt-foto.png",
-      "/assets/img/corretor-dan-schaidt-foto.png"
+      "../assets/img/corretor-dan-schaidt-foto.png",
+      "../assets/img/corretor-dan-schaidt-foto.png",
+      "../assets/img/corretor-dan-schaidt-foto.png"
     ],
-    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
     "quartos": 2,
     "banheiros": 2,
     "garagem": 1,
@@ -62,9 +62,9 @@
     ],
     "bairro": "Centro Histórico",
     "imagens": [
-      "/assets/img/corretor-dan-schaidt-foto.png",
-      "/assets/img/corretor-dan-schaidt-foto.png",
-      "/assets/img/corretor-dan-schaidt-foto.png"
+      "../assets/img/corretor-dan-schaidt-foto.png",
+      "../assets/img/corretor-dan-schaidt-foto.png",
+      "../assets/img/corretor-dan-schaidt-foto.png"
     ],
     "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
     "quartos": 2,
@@ -104,10 +104,10 @@
     ],
     "bairro": "Centro Histórico",
     "imagens": [
-      "/assets/img/corretor-dan-schaidt-foto.png",
-      "/assets/img/imovel-casa-01-2.jpg",
-      "/assets/img/imovel-casa-01-3.jpg",
-      "/assets/img/imovel-casa-01-4.jpg"
+      "../assets/img/corretor-dan-schaidt-foto.png",
+      "../assets/img/imovel-casa-01-2.jpg",
+      "../assets/img/imovel-casa-01-3.jpg",
+      "../assets/img/imovel-casa-01-4.jpg"
     ],
     "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
     "quartos": 3,
@@ -148,7 +148,7 @@
       "../assets/img/imovel-apto-02-2.jpg",
       "../assets/img/imovel-apto-02-3.jpg"
     ],
-    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
     "quartos": 2,
     "banheiros": 1,
     "garagem": 1,
@@ -187,7 +187,7 @@
       "../assets/img/imovel-cobertura-02.jpg",
       "../assets/img/imovel-cobertura-03.jpg"
     ],
-    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
     "quartos": 4,
     "banheiros": 3,
     "garagem": 3,
@@ -224,7 +224,7 @@
       "../assets/img/imovel-cobertura-03-2.jpg",
       "../assets/img/imovel-cobertura-03-3.jpg"
     ],
-    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
     "quartos": 4,
     "banheiros": 3,
     "garagem": 3,
@@ -260,7 +260,7 @@
     "imagens": [
       "../assets/img/box-garagem-01.jpg"
     ],
-    "imagemCapa": "/assets/img/corretor-dan-schaidt-foto.png",
+    "imagemCapa": "../assets/img/corretor-dan-schaidt-foto.png",
     "quartos": 0,
     "banheiros": 0,
     "garagem": 1,
