@@ -93,7 +93,7 @@ function renderSugestoes(lista, containerId, tipo) {
           <div id="resultados-imoveis ">
             ${lista.map(imovel => `
               <div class="margem">
-              <a href="/imovel/${imovel.slug}.html" class="card-imovel">
+              <a href="imovel/${imovel.slug}.html" class="card-imovel">
                 <p>${imovel.bairro}</p>
                 <p>${imovel.endereco} – ${imovel.cidade}</p>
                 <span>${Array.isArray(imovel.tags) ? imovel.tags.join(', ') : (imovel.tags || '')}</span>
@@ -118,7 +118,7 @@ function renderSugestoes(lista, containerId, tipo) {
             ${lista.map(post => {
               const dataFinal = formatarDataBR(obterDataMaisRecente(post));
               return `
-                <a href="/blog/${post.slug}.html" class="blog-card">
+                <a href="blog/${post.slug}.html" class="blog-card">
                   <img data-src="${post.imagemCapa || ''}" 
                        alt="${post.textoAltImagemCapa || post.tituloPrincipal || ''}" 
                        loading="lazy">
@@ -277,7 +277,7 @@ function renderizarGrid() {
 }
 
 function criarCard(post) {
-  const link = `/blog/${post.slug}.html`;
+  const link = `blog/${post.slug}.html`;
   const dataFinal = post._dataOrdenacao ? formatarDataBR(post._dataOrdenacao) : '';
 
   const card = document.createElement('a');
