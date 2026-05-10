@@ -206,7 +206,7 @@ function initCarrosselHorizontal(wrapper) {
 // =======================================
 const GRID = document.getElementById('blogGrid');
 const FILTROS = document.getElementById('filtrosCategorias');
-const JSON_URL = 'assets/json/dados-blog.json';
+const JSON_URL = '../assets/json/dados-blog.json';
 
 let posts = [];
 let categoriaAtiva = 'todas';
