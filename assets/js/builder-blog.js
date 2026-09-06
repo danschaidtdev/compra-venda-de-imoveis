@@ -5,7 +5,7 @@
 // ------------------------
 async function carregarPosts() {
   try {
-    const res = await fetch("../assets/json/dados-blog.json");
+    const res = await fetch("/assets/json/dados-blog.json");
     if (!res.ok) throw new Error("Erro ao carregar JSON do blog");
     return await res.json();
   } catch (err) {
@@ -19,8 +19,8 @@ async function carregarPosts() {
 // ================================
 async function gerarCarrosselParaBlog() {
   const [imoveis, posts] = await Promise.all([
-    fetch("../assets/json/dados-imoveis.json").then(r => r.json()),
-    fetch("../assets/json/dados-blog.json").then(r => r.json())
+    fetch("/assets/json/dados-imoveis.json").then(r => r.json()),
+    fetch("/assets/json/dados-blog.json").then(r => r.json())
   ]);
 
   const metaSlug = document.querySelector('meta[name="slug"]')?.content || '';
@@ -269,7 +269,7 @@ ${JSON.stringify(schema, null, 2)}
   <div class="moldura-nav blocoMenu">
   <div id="logotipo">
     <a href="/index.html">
-      <img src="../assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
+      <img src="/assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
     </a>
   </div>
 
@@ -382,11 +382,11 @@ if (typeof sugestaoBidirecional === 'function') {
     </div>
 </div>
 
-</div></div><script src="../assets/js/galerias.js"></script>
-  <script src="../assets/js/script.js"></script>
-  <script src="../assets/js/galeria.js"></script>
-  <script src="../assets/js/imoveis-sugeridos.js"></script>
-  <script src="../assets/js/sugere-blog-imovel.js"></script>
+</div></div><script src="/assets/js/galerias.js"></script>
+  <script src="/assets/js/script.js"></script>
+  <script src="/assets/js/galeria.js"></script>
+  <script src="/assets/js/imoveis-sugeridos.js"></script>
+  <script src="/assets/js/sugere-blog-imovel.js"></script>
 
 </body>
 </html>`;

@@ -41,6 +41,7 @@
 .ordenacao {
   display: flex;
   gap: 1vh;
+  align-items: start;
 }
 
 .acoes button,

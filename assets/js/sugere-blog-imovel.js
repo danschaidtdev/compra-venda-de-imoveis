@@ -54,25 +54,40 @@ async function sugestaoBidirecional({ urlImoveis, urlBlog, containerId, tipoVisu
     // BLOG → SUGERE IMÓVEIS
     if (isBlog) {
       const tags = tagsBlog.split(',').map(t => t.trim());
+
       resultados = imoveis.filter(imovel => {
         const alvo = `${imovel.endereco} ${imovel.bairro} ${imovel.cidade}`.toLowerCase();
-        return tags.some(tag => alvo.includes(tag));
+
+        return tags.some(tag =>
+          alvo.includes(tag)
+        );
       });
     }
 
     // IMÓVEL → SUGERE BLOG
     if (isImovel) {
       const termos = [endereco, bairro, cidade].filter(Boolean);
+
       resultados = posts.filter(post =>
         post.tags?.some(tag =>
-          termos.some(t => tag.toLowerCase().includes(t))
+          termos.some(t =>
+            tag.toLowerCase().includes(t)
+          )
         )
       );
     }
 
-    renderSugestoes(resultados, containerId, tipoVisual);
+    renderSugestoes(
+      resultados,
+      containerId,
+      tipoVisual
+    );
+
   } catch (error) {
-    console.error("Erro ao buscar dados para sugestão:", error);
+    console.error(
+      "Erro ao buscar dados para sugestão:",
+      error
+    );
   }
 }
 
@@ -81,23 +96,43 @@ async function sugestaoBidirecional({ urlImoveis, urlBlog, containerId, tipoVisu
 // =======================================
 function renderSugestoes(lista, containerId, tipo) {
   const container = document.getElementById(containerId);
+
   if (!container || !lista.length) return;
 
   // CARROSSEL DE IMÓVEIS
   if (tipo === 'imovel') {
     container.innerHTML = `
       <section class="bloco-sugestao">
-        <h3 id="titulo-h3-sugestao">Imóveis semelhantes à sua busca</h3>
-        <div id="contador-sugestoes-imovel">${lista.length} sugestões encontradas</div>
+        <h3 id="titulo-h3-sugestao">
+          Imóveis semelhantes à sua busca
+        </h3>
+
+        <div id="contador-sugestoes-imovel">
+          ${lista.length} sugestões encontradas
+        </div>
+
         <div class="carrossel-wrapper">
           <div id="resultados-imoveis ">
             ${lista.map(imovel => `
               <div class="margem">
-              <a href="imovel/${imovel.slug}.html" class="card-imovel">
-                <p>${imovel.bairro}</p>
-                <p>${imovel.endereco} – ${imovel.cidade}</p>
-                <span>${Array.isArray(imovel.tags) ? imovel.tags.join(', ') : (imovel.tags || '')}</span>
-              </a>
+                <a
+                  href="/imovel/${imovel.slug}.html"
+                  class="card-imovel"
+                >
+                  <p>${imovel.bairro}</p>
+
+                  <p>
+                    ${imovel.endereco} – ${imovel.cidade}
+                  </p>
+
+                  <span>
+                    ${
+                      Array.isArray(imovel.tags)
+                        ? imovel.tags.join(', ')
+                        : (imovel.tags || '')
+                    }
+                  </span>
+                </a>
               </div>
             `).join('')}
           </div>
@@ -111,48 +146,111 @@ function renderSugestoes(lista, containerId, tipo) {
     container.innerHTML = `
       <section class="bloco-sugestao-blog">
         <p>Matérias relacionadas</p>
-        <div class="carrossel-blog-wrapper" style="position: relative;">
-          <button class="carrossel-btn esquerda" aria-label="Anterior">❮</button>
-          
-          <div class="carrossel-blog" id="carrossel-blog-${containerId}">
+
+        <div
+          class="carrossel-blog-wrapper"
+          style="position: relative;"
+        >
+          <button
+            class="carrossel-btn esquerda"
+            aria-label="Anterior"
+          >
+            ❮
+          </button>
+
+          <div
+            class="carrossel-blog"
+            id="carrossel-blog-${containerId}"
+          >
             ${lista.map(post => {
-              const dataFinal = formatarDataBR(obterDataMaisRecente(post));
+              const dataFinal =
+                formatarDataBR(
+                  obterDataMaisRecente(post)
+                );
+
               return `
-                <a href="blog/${post.slug}.html" class="blog-card">
-                  <img data-src="${post.imagemCapa || ''}" 
-                       alt="${post.textoAltImagemCapa || post.tituloPrincipal || ''}" 
-                       loading="lazy">
-                  <span class="blog-card-data">${dataFinal}</span>
+                <a
+                  href="/blog/${post.slug}.html"
+                  class="blog-card"
+                >
+                  <img
+                    data-src="${post.imagemCapa || ''}"
+                    alt="${
+                      post.textoAltImagemCapa ||
+                      post.tituloPrincipal ||
+                      ''
+                    }"
+                    loading="lazy"
+                  >
+
+                  <span class="blog-card-data">
+                    ${dataFinal}
+                  </span>
+
                   <div class="blog-card-content">
-                    <h3>${post.tituloPrincipal}</h3>
-                    <p class="introducao-fade">${(post.introducao?.paragrafo1 || '').slice(0, 60)}...</p>
-                    <span>Continuar a leitura →</span>
+                    <h3>
+                      ${post.tituloPrincipal}
+                    </h3>
+
+                    <p class="introducao-fade">
+                      ${
+                        (
+                          post.introducao?.paragrafo1 ||
+                          ''
+                        ).slice(0, 60)
+                      }...
+                    </p>
+
+                    <span>
+                      Continuar a leitura →
+                    </span>
                   </div>
                 </a>
               `;
             }).join('')}
           </div>
-          
-          <button class="carrossel-btn direita" aria-label="Próximo">❯</button>
+
+          <button
+            class="carrossel-btn direita"
+            aria-label="Próximo"
+          >
+            ❯
+          </button>
         </div>
       </section>
     `;
 
     // Lazy load das imagens
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const img = entry.target;
-        if(img.dataset.src) {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+
+          const img = entry.target;
+
+          if (img.dataset.src) {
             img.src = img.dataset.src;
             observer.unobserve(img);
-        }
-      });
-    }, { rootMargin: '200px' });
-    container.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
+          }
+        });
+      },
+      {
+        rootMargin: '200px'
+      }
+    );
+
+    container
+      .querySelectorAll('img[data-src]')
+      .forEach(img =>
+        observer.observe(img)
+      );
 
     // Inicializa carrossel horizontal mobile-first
-    initCarrosselHorizontal(container.querySelector('.carrossel-blog-wrapper'));
+    initCarrosselHorizontal(
+      container.querySelector(
+        '.carrossel-blog-wrapper'
+      )
+    );
   }
 }
 
@@ -161,198 +259,569 @@ function renderSugestoes(lista, containerId, tipo) {
 // =======================================
 function initCarrosselHorizontal(wrapper) {
   if (!wrapper) return;
-  const carrossel = wrapper.querySelector('.carrossel-blog');
-  const btnEsq = wrapper.querySelector('.carrossel-btn.esquerda');
-  const btnDir = wrapper.querySelector('.carrossel-btn.direita');
+
+  const carrossel =
+    wrapper.querySelector('.carrossel-blog');
+
+  const btnEsq =
+    wrapper.querySelector(
+      '.carrossel-btn.esquerda'
+    );
+
+  const btnDir =
+    wrapper.querySelector(
+      '.carrossel-btn.direita'
+    );
 
   if (!carrossel) return;
 
-  const itemWidth = carrossel.querySelector('a.blog-card')?.offsetWidth || 250;
+  const itemWidth =
+    carrossel.querySelector(
+      'a.blog-card'
+    )?.offsetWidth || 250;
 
-  if (btnDir) btnDir.addEventListener('click', () => carrossel.scrollBy({ left: itemWidth, behavior: 'smooth' }));
-  if (btnEsq) btnEsq.addEventListener('click', () => carrossel.scrollBy({ left: -itemWidth, behavior: 'smooth' }));
+  if (btnDir) {
+    btnDir.addEventListener(
+      'click',
+      () =>
+        carrossel.scrollBy({
+          left: itemWidth,
+          behavior: 'smooth'
+        })
+    );
+  }
+
+  if (btnEsq) {
+    btnEsq.addEventListener(
+      'click',
+      () =>
+        carrossel.scrollBy({
+          left: -itemWidth,
+          behavior: 'smooth'
+        })
+    );
+  }
 
   // Drag e touch mobile
-  let isDown = false, startX, scrollLeft;
+  let isDown = false;
+  let startX;
+  let scrollLeft;
 
-  carrossel.addEventListener('mousedown', e => {
-    isDown = true;
-    carrossel.classList.add('ativo');
-    startX = e.pageX - carrossel.offsetLeft;
-    scrollLeft = carrossel.scrollLeft;
-  });
-  carrossel.addEventListener('mouseleave', () => { isDown = false; carrossel.classList.remove('ativo'); });
-  carrossel.addEventListener('mouseup', () => { isDown = false; carrossel.classList.remove('ativo'); });
-  carrossel.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    carrossel.scrollLeft = scrollLeft - (e.pageX - startX);
-  });
+  carrossel.addEventListener(
+    'mousedown',
+    e => {
+      isDown = true;
 
-  carrossel.addEventListener('touchstart', e => {
-    isDown = true;
-    startX = e.touches[0].pageX - carrossel.offsetLeft;
-    scrollLeft = carrossel.scrollLeft;
-  }, { passive: true });
-  carrossel.addEventListener('touchend', () => { isDown = false; });
-  carrossel.addEventListener('touchmove', e => {
-    if (!isDown) return;
-    carrossel.scrollLeft = scrollLeft - (e.touches[0].pageX - startX);
-  }, { passive: true });
+      carrossel.classList.add(
+        'ativo'
+      );
+
+      startX =
+        e.pageX -
+        carrossel.offsetLeft;
+
+      scrollLeft =
+        carrossel.scrollLeft;
+    }
+  );
+
+  carrossel.addEventListener(
+    'mouseleave',
+    () => {
+      isDown = false;
+
+      carrossel.classList.remove(
+        'ativo'
+      );
+    }
+  );
+
+  carrossel.addEventListener(
+    'mouseup',
+    () => {
+      isDown = false;
+
+      carrossel.classList.remove(
+        'ativo'
+      );
+    }
+  );
+
+  carrossel.addEventListener(
+    'mousemove',
+    e => {
+      if (!isDown) return;
+
+      e.preventDefault();
+
+      carrossel.scrollLeft =
+        scrollLeft -
+        (e.pageX - startX);
+    }
+  );
+
+  carrossel.addEventListener(
+    'touchstart',
+    e => {
+      isDown = true;
+
+      startX =
+        e.touches[0].pageX -
+        carrossel.offsetLeft;
+
+      scrollLeft =
+        carrossel.scrollLeft;
+    },
+    {
+      passive: true
+    }
+  );
+
+  carrossel.addEventListener(
+    'touchend',
+    () => {
+      isDown = false;
+    }
+  );
+
+  carrossel.addEventListener(
+    'touchmove',
+    e => {
+      if (!isDown) return;
+
+      carrossel.scrollLeft =
+        scrollLeft -
+        (
+          e.touches[0].pageX -
+          carrossel.offsetLeft
+        );
+    },
+    {
+      passive: true
+    }
+  );
 }
 
 // =======================================
-// GRID DE BLOG (Com verificação de escopo)
+// GRID DE BLOG
 // =======================================
-const GRID = document.getElementById('blogGrid');
-const FILTROS = document.getElementById('filtrosCategorias');
-const JSON_URL = '../assets/json/dados-blog.json';
+const GRID =
+  document.getElementById(
+    'blogGrid'
+  );
+
+const FILTROS =
+  document.getElementById(
+    'filtrosCategorias'
+  );
+
+const JSON_URL =
+  '../assets/json/dados-blog.json';
 
 let posts = [];
 let categoriaAtiva = 'todas';
-let pagina = 0;
-const POR_PAGINA = 8;
-let carregando = false;
 
+// Quantidade de cards que permanecem
+// visíveis antes da rolagem.
+const CARDS_VISIVEIS = 8;
+
+
+// =======================================
+// CARREGAR POSTS
+// =======================================
 async function carregarPosts() {
   try {
-    const res = await fetch(JSON_URL);
-    const data = await res.json();
+    const res =
+      await fetch(JSON_URL);
+
+    const data =
+      await res.json();
 
     posts = data
-      .filter(p => p.slug && p.categoria)
+      .filter(
+        p =>
+          p.slug &&
+          p.categoria
+      )
       .map(p => ({
         ...p,
-        _dataOrdenacao: obterDataMaisRecente(p)
+        _dataOrdenacao:
+          obterDataMaisRecente(p)
       }))
-      .sort((a, b) => b._dataOrdenacao - a._dataOrdenacao);
+      .sort(
+        (a, b) =>
+          b._dataOrdenacao -
+          a._dataOrdenacao
+      );
 
-    if (FILTROS) criarFiltros(posts);
+    if (FILTROS) {
+      criarFiltros(posts);
+    }
+
     renderizarGrid();
+
   } catch (error) {
-    console.error("Erro ao carregar os posts do blog:", error);
+    console.error(
+      "Erro ao carregar os posts do blog:",
+      error
+    );
   }
 }
 
+
+// =======================================
+// FILTROS
+// =======================================
 function criarFiltros(lista) {
-  const categorias = ['todas', ...new Set(lista.map(p => p.categoria))];
+  const categorias = [
+    'todas',
+    ...new Set(
+      lista.map(
+        p => p.categoria
+      )
+    )
+  ];
 
-  FILTROS.innerHTML = categorias.map(cat => `
-    <button class="${cat === 'todas' ? 'ativo' : ''}" data-cat="${cat}">
-      ${cat}
-    </button>
-  `).join('');
+  FILTROS.innerHTML =
+    categorias
+      .map(
+        cat => `
+          <button
+            class="${
+              cat === 'todas'
+                ? 'ativo'
+                : ''
+            }"
+            data-cat="${cat}"
+          >
+            ${cat}
+          </button>
+        `
+      )
+      .join('');
 
-  FILTROS.addEventListener('click', e => {
-    if (!e.target.dataset.cat) return;
-    categoriaAtiva = e.target.dataset.cat;
-    pagina = 0;
-    
-    document.querySelectorAll('.blog-filtros button, #filtrosCategorias button')
-            .forEach(b => b.classList.remove('ativo'));
-            
-    e.target.classList.add('ativo');
-    GRID.innerHTML = '';
-    renderizarGrid();
-  });
+  FILTROS.addEventListener(
+    'click',
+    e => {
+      if (!e.target.dataset.cat) return;
+
+      categoriaAtiva =
+        e.target.dataset.cat;
+
+      document
+        .querySelectorAll(
+          '.blog-filtros button, #filtrosCategorias button'
+        )
+        .forEach(
+          b =>
+            b.classList.remove(
+              'ativo'
+            )
+        );
+
+      e.target.classList.add(
+        'ativo'
+      );
+
+      GRID.innerHTML = '';
+
+      renderizarGrid();
+    }
+  );
 }
 
+
+// =======================================
+// AJUSTA O SCROLL DO GRID
+// =======================================
+// Mantém exatamente o layout dos cards.
+//
+// O próprio 8º card define a altura
+// máxima do grid.
+//
+// Não usa altura fixa como 500px/720px,
+// pois isso poderia cortar os cards.
+function ajustarScrollGrid() {
+  if (!GRID) return;
+
+  const cards =
+    GRID.querySelectorAll(
+      '.blog-card'
+    );
+
+  // Até 8 cards: comportamento original
+  if (
+    cards.length <=
+    CARDS_VISIVEIS
+  ) {
+    GRID.style.maxHeight = '';
+    GRID.style.overflowY = '';
+    GRID.style.overflowX = '';
+    GRID.style.overscrollBehavior = '';
+
+    return;
+  }
+
+  const oitavoCard =
+    cards[
+      CARDS_VISIVEIS - 1
+    ];
+
+  if (!oitavoCard) return;
+
+  /*
+   * Calcula exatamente onde termina
+   * o 8º card dentro do grid.
+   */
+  const altura =
+    oitavoCard.offsetTop +
+    oitavoCard.offsetHeight;
+
+  GRID.style.maxHeight =
+    `${altura}px`;
+
+  /*
+   * Scroll somente vertical.
+   *
+   * "clip" evita que uma barra horizontal
+   * seja criada sem cortar o layout como
+   * acontecia com overflow-x: hidden.
+   */
+  GRID.style.overflowY =
+    'auto';
+
+  GRID.style.overflowX =
+    'clip';
+
+  GRID.style.overscrollBehavior =
+    'contain';
+}
+
+
+// =======================================
+// RENDERIZAÇÃO DO GRID
+// =======================================
 function renderizarGrid() {
-  if (!GRID) return; // Segurança caso a página não tenha o grid
-  
-  const filtrados = categoriaAtiva === 'todas'
-    ? posts
-    : posts.filter(p => p.categoria === categoriaAtiva);
+  if (!GRID) return;
 
-  // Evita renderizar se já mostrou todos os posts
-  if (pagina * POR_PAGINA >= filtrados.length && pagina > 0) return;
+  const filtrados =
+    categoriaAtiva === 'todas'
+      ? posts
+      : posts.filter(
+          p =>
+            p.categoria ===
+            categoriaAtiva
+        );
 
-  const slice = filtrados.slice(
-    pagina * POR_PAGINA,
-    (pagina + 1) * POR_PAGINA
+  /*
+   * Renderiza TODAS as matérias.
+   *
+   * Não existe mais paginação.
+   * Os 8 primeiros ficam visíveis.
+   * Os demais ficam disponíveis
+   * pela rolagem interna.
+   */
+  filtrados.forEach(
+    criarCard
   );
 
-  slice.forEach(criarCard);
-  pagina++;
+  /*
+   * Aguarda o navegador concluir
+   * o cálculo do layout antes de
+   * medir o 8º card.
+   */
+  requestAnimationFrame(
+    () => {
+      ajustarScrollGrid();
+    }
+  );
 }
 
-function criarCard(post) {
-  const link = `blog/${post.slug}.html`;
-  const dataFinal = post._dataOrdenacao ? formatarDataBR(post._dataOrdenacao) : '';
 
-  const card = document.createElement('a');
+// =======================================
+// CRIA CARD
+// =======================================
+function criarCard(post) {
+  const link =
+    `/blog/${post.slug}.html`;
+
+  const dataFinal =
+    post._dataOrdenacao
+      ? formatarDataBR(
+          post._dataOrdenacao
+        )
+      : '';
+
+  const card =
+    document.createElement('a');
+
   card.href = link;
   card.target = '_blank';
-  card.className = 'blog-card';
+  card.className =
+    'blog-card';
 
   card.innerHTML = `
-    <img data-src="${post.imagemCapa || ''}" 
-         alt="${post.textoAltImagemCapa || post.tituloPrincipal || ''}" 
-         loading="lazy">
-    <span class="blog-card-data">${dataFinal}</span>
+    <img
+      data-src="${post.imagemCapa || ''}"
+      alt="${
+        post.textoAltImagemCapa ||
+        post.tituloPrincipal ||
+        ''
+      }"
+      loading="lazy"
+    >
+
+    <span class="blog-card-data">
+      ${dataFinal}
+    </span>
+
     <div class="blog-card-content">
-      <h3>${post.tituloPrincipal}</h3>
-      <p class="introducao-fade">${(post.introducao?.paragrafo1 || '').slice(0, 60)}...</p>
-      <span>Continuar a leitura →</span>
+      <h3>
+        ${post.tituloPrincipal}
+      </h3>
+
+      <p class="introducao-fade">
+        ${
+          (
+            post.introducao
+              ?.paragrafo1 ||
+            ''
+          ).slice(0, 60)
+        }...
+      </p>
+
+      <span>
+        Continuar a leitura →
+      </span>
     </div>
   `;
 
-  GRID.appendChild(card);
-  observarImagem(card.querySelector('img'));
+  GRID.appendChild(
+    card
+  );
+
+  observarImagem(
+    card.querySelector('img')
+  );
 }
 
-const observerGrid = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const img = entry.target;
-    if(img.dataset.src) {
-        img.src = img.dataset.src;
-        observerGrid.unobserve(img);
+
+// =======================================
+// LAZY LOAD DAS IMAGENS
+// =======================================
+const observerGrid =
+  new IntersectionObserver(
+    entries => {
+      entries.forEach(
+        entry => {
+          if (
+            !entry.isIntersecting
+          ) return;
+
+          const img =
+            entry.target;
+
+          if (
+            img.dataset.src
+          ) {
+            img.src =
+              img.dataset.src;
+
+            observerGrid.unobserve(
+              img
+            );
+          }
+        }
+      );
+    },
+    {
+      rootMargin:
+        '200px'
     }
-  });
-}, { rootMargin: '200px' });
+  );
+
 
 function observarImagem(img) {
-  if (img && img.dataset.src) observerGrid.observe(img);
+  if (
+    img &&
+    img.dataset.src
+  ) {
+    observerGrid.observe(
+      img
+    );
+  }
 }
+
+
+// =======================================
+// RECALCULA O SCROLL NO REDIMENSIONAMENTO
+// =======================================
+let resizeTimer;
+
+window.addEventListener(
+  'resize',
+  () => {
+    clearTimeout(
+      resizeTimer
+    );
+
+    resizeTimer =
+      setTimeout(
+        () => {
+          ajustarScrollGrid();
+        },
+        100
+      );
+  }
+);
+
 
 // =======================================
 // INICIALIZAÇÃO
 // =======================================
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Inicializa o carrossel bidirecional
-  const isBlog = document.querySelector('meta[name="tags"]');
-  const isImovel = document.querySelector('meta[name="bairro"], meta[name="cidade"], meta[name="endereco"]');
+document.addEventListener(
+  'DOMContentLoaded',
+  () => {
 
-  if (document.getElementById('sugestao-dinamica')) {
+    // 1. Inicializa o carrossel bidirecional
+    const isBlog =
+      document.querySelector(
+        'meta[name="tags"]'
+      );
+
+    const isImovel =
+      document.querySelector(
+        'meta[name="bairro"], ' +
+        'meta[name="cidade"], ' +
+        'meta[name="endereco"]'
+      );
+
+    if (
+      document.getElementById(
+        'sugestao-dinamica'
+      )
+    ) {
       sugestaoBidirecional({
-        urlImoveis: 'assets/json/dados-imoveis.json',
-        urlBlog: 'assets/json/dados-blog.json',
-        containerId: 'sugestao-dinamica',
-        tipoVisual: isBlog ? 'imovel' : 'blog'
+        urlImoveis:
+          '../assets/json/dados-imoveis.json',
+
+        urlBlog:
+          '../assets/json/dados-blog.json',
+
+        containerId:
+          'sugestao-dinamica',
+
+        tipoVisual:
+          isBlog
+            ? 'imovel'
+            : 'blog'
       });
+    }
+
+   
+    // 2. Inicializa a grade do blog
+    if (GRID) {
+      carregarPosts();
+    }
   }
-
-  // ATENÇÃO: A função heroCarrosselBlog não foi definida no seu código original.
-  // Comentei para não gerar erro no console.
-  /*
-  heroCarrosselBlog({
-    urlBlog: '../assets/json/dados-blog.json',
-    containerId: 'hero-blog-container',
-    autoplay: true,
-    intervalo: 6000
-  });
-  */
-
-  // 2. Inicializa a grade do blog APENAS se os elementos existirem na página
-  if (GRID) {
-    carregarPosts();
-
-    // Scroll infinito vinculado à existência do GRID
-    window.addEventListener('scroll', () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-        renderizarGrid();
-      }
-    });
-  }
-});
+);

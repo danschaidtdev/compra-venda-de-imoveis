@@ -889,6 +889,28 @@ padding: 10px;
 }
 
 
+
+.lista-localizacao {
+  display: none;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.lista-localizacao.aberta {
+  display: block;
+}
+
+.opcao-localizacao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.sem-opcoes-localizacao {
+  padding: 10px;
+}
+
 /*<<<<<<<<<<<<<< MOBILE >>>>>>>>>>>>>>>>*/
 
 @media (max-width: 789px) {

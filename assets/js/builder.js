@@ -10,7 +10,7 @@
 // ------------------------
 async function carregarImoveis() {
   try {
-    const res = await fetch("assets/json/dados-imoveis.json");
+    const res = await fetch("/assets/json/dados-imoveis.json");
     if (!res.ok) throw new Error("Erro ao carregar JSON de imóveis");
     return await res.json();
   } catch (err) {
@@ -59,7 +59,7 @@ function imoveisPorPost(post, dadosImoveis) {
 
 function gerarCard(item, tipo = 'blog') {
   const titulo = tipo === 'blog' ? item.tituloPrincipal : item.titulo;
-  const link   = tipo === 'blog' ? `/blog/${item.slug}.html` : `imovel/${item.slug}.html`;
+  const link   = tipo === 'blog' ? `/blog/${item.slug}.html` : `/imovel/${item.slug}.html`;
   const img    = item.imagens?.[0] || '';
 
   return `
@@ -209,7 +209,7 @@ ${metaTagsHTML}  <!-- NOVO: tags personalizadas -->
 <meta property="og:title" content="${imovel.titulo}">
 <meta property="og:image" content="${imovel.imagemCapa}">
 
-<link rel="canonical" href="https://danschaidtdev.github.io/compra-venda-de-imoveis/imovel/${imovel.slug}.html">
+<link rel="canonical" href="https://seusite.com.br/imovel/${imovel.slug}.html">
 
 <script type="application/ld+json">
 ${JSON.stringify(schema, null, 2)}
@@ -236,7 +236,7 @@ ${JSON.stringify(schema, null, 2)}
   <div class="moldura-nav blocoMenu">
   <div id="logotipo">
     <a href="/index.html">
-      <img src="../assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
+      <img src="/assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
     </a>
   </div>
 
@@ -332,7 +332,7 @@ ${JSON.stringify(schema, null, 2)}
             <div class="botaoCTA" style="margin-top: 3vh;">
                   <button type="button" >Agendar uma Visita</button>
               </div>
-          <img class=" img-decorada" src="../assets/img/completo-fundo-azul-amarelo.webp"
+          <img class=" img-decorada" src="/assets/img/completo-fundo-azul-amarelo.webp"
               alt="Corretor de Imóveis no Rio Grande do Sul, Dan Schaidt">
               
         </div>
@@ -394,7 +394,7 @@ sugestaoBidirecional({
   *-*%20_${imovel.cidade}_%0A
   " target="_blank" rel="noopener noreferrer">
     <div class="botaoFIXO">
-      <img src="../assets/img/img-geral/logo-whatsapp.png" alt="">
+      <img src="/assets/img/img-geral/logo-whatsapp.png" alt="">
 
     </div>
 </a>  
@@ -467,11 +467,11 @@ sugestaoBidirecional({
 </div>
 
      
-        <script src="../assets/js/galerias.js"></script>
-        <script src="../assets/js/script.js"></script>
-        <script src="../assets/js/galeria.js"></script>
-        <script src="../assets/js/imoveis-sugeridos.js"></script>
-        <script src="../assets/js/sugere-blog-imovel.js"></script>
+        <script src="/assets/js/galerias.js"></script>
+        <script src="/assets/js/script.js"></script>
+        <script src="/assets/js/galeria.js"></script>
+        <script src="/assets/js/imoveis-sugeridos.js"></script>
+        <script src="/assets/js/sugere-blog-imovel.js"></script>
 
 
 </div>
@@ -504,7 +504,7 @@ function baixarArquivo(nome, conteudo, tipo = "text/html") {
 // ------------------------
 async function paginaExiste(slug) {
   try {
-    const res = await fetch(`imovel/${slug}.html`, { method: "HEAD" });
+    const res = await fetch(`/imovel/${slug}.html`, { method: "HEAD" });
     return res.ok;
   } catch (err) {
     return false;
@@ -524,7 +524,7 @@ async function gerarPaginas() {
   // Carregar lista existente
   let lista = [];
   try {
-    const res = await fetch("../assets/json/lista-imoveis.json");
+    const res = await fetch("/assets/json/lista-imoveis.json");
     if (res.ok) lista = await res.json();
   } catch {
     console.warn("Não foi possível carregar lista-imoveis.json. Será criada uma nova.");

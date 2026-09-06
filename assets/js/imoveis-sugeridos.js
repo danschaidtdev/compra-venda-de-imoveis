@@ -7,7 +7,7 @@ let retornoTimer = null;
 
 function getSlugAtual() {
   return window.location.pathname
-    .replace("imovel/", "")
+    .replace("/imovel/", "")
     .replace(".html", "")
     .trim()
     .toLowerCase();
@@ -40,7 +40,7 @@ function calcularSimilaridade(base, candidato) {
 }
 
 async function carregarImoveis() {
-  const res = await fetch("../assets/json/dados-imoveis.json");
+  const res = await fetch("/assets/json/dados-imoveis.json");
   return await res.json();
 }
 
@@ -108,7 +108,7 @@ function renderizarSugestoes(lista) {
 
   return `
     <article class="card-imovel efeito-eleva">
-      <a href="imovel/${imovel.slug}.html">
+      <a href="/imovel/${imovel.slug}.html">
         <img 
           src="${imovel.imagemCapa}"
           alt="${imovel.titulo}"
