@@ -10,7 +10,7 @@
 // ------------------------
 async function carregarImoveis() {
   try {
-    const res = await fetch("/assets/json/dados-imoveis.json");
+    const res = await fetch("assets/json/dados-imoveis.json");
     if (!res.ok) throw new Error("Erro ao carregar JSON de imóveis");
     return await res.json();
   } catch (err) {
@@ -315,6 +315,9 @@ ${JSON.stringify(schema, null, 2)}
         <li><strong>Localização:</strong> ${imovel.endereco}</li>
       </ul>
       <strong>${imovel.tags}</strong>
+      
+
+    
     </div>
 
     <div class="container-precos">
@@ -569,7 +572,7 @@ async function gerarPaginas() {
     baixarArquivo(`${slug}.html`, html);
     console.log(`Página gerada: ${slug}.html`);
   } else {
-    console.log(`Página mantida: ${slug}.html`);
+    console.log(`*Página mantida: ${slug}.html`);
   }
 }
 
