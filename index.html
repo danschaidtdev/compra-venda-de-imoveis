@@ -95,6 +95,47 @@
 
 <div id="filtrosAplicados" class="filtros-aplicados"></div>
 
+<!--BAIRRO CIDADE-->
+<!-- Botão para abrir o Modal de Filtros -->
+<button id="openFilterBtn" type="button">Pesquisar por Bairro e Cidade</button>
+
+<!-- Modal de Filtros (Mobile-First) -->
+<div id="filterModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Filtrar por Cidade e Bairro</h3>
+            <button id="closeFilterBtn" type="button">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Grupo de Filtro: Cidade -->
+            <div class="filter-group">
+                <label for="searchCity">Cidade</label>
+                <input type="text" id="searchCity" placeholder="Pesquisar cidade...">
+                <div id="cityList" class="checkbox-container custom-scroll">
+                    <!-- Preenchido dinamicamente via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Grupo de Filtro: Bairro -->
+            <div class="filter-group">
+                <label for="searchNeighborhood">Bairro</label>
+                <input type="text" id="searchNeighborhood" placeholder="Pesquisar bairro...">
+                <div id="neighborhoodList" class="checkbox-container custom-scroll">
+                    <!-- Preenchido dinamicamente via JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="clearLocationFilters" type="button">Limpar</button>
+            <button id="applyFilters" type="button">Aplicar Filtros</button>
+        </div>
+    </div>
+</div>
+
+<!--TAGS-->
+
   <div id="tagsDinamicas" class="tags"></div>
 
   

@@ -5,6 +5,8 @@ let campoBusca, resultados, totalResultados;
 let cacheImoveis = [];
 
 let tagsAtivas = new Set();
+let cidadesAtivas = new Set();
+let bairrosAtivas = new Set();
 
 let tipoAtivo = "todos";
 let ordemAtiva = "inteligente";
@@ -18,6 +20,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   totalResultados = document.getElementById("contadorResultados");
 
   await carregarImoveis();
+  inicializarFiltroLocalizacao();
   gerarTagsDinamicas();
   configurarEventos();
   filtrarImoveis();
@@ -116,6 +119,7 @@ function scrollParaResultados() {
 
   }, 6500);
 }
+
 /* ======================================================
    CARREGAR IMÓVEIS
 ====================================================== */
@@ -125,35 +129,124 @@ async function carregarImoveis() {
     const data = await res.json();
 
     cacheImoveis = data.map(imovel => {
-  const categorias = (imovel.categoria || []).map(c => c.toLowerCase());
-  const tags = (imovel.tags || []).map(t => t.toLowerCase());
+      const categorias = (imovel.categoria || []).map(c => c.toLowerCase());
+      const tags = (imovel.tags || []).map(t => t.toLowerCase());
 
-  const textoBusca = [
-    imovel.titulo,
-    imovel.descricao,
-    imovel.bairro,
-    imovel.cidade,
-    imovel.estado,
-    ...tags,
-    ...categorias
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
+      const textoBusca = [
+        imovel.titulo,
+        imovel.descricao,
+        imovel.bairro,
+        imovel.cidade,
+        imovel.estado,
+        ...tags,
+        ...categorias
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
-  return {
-    ...imovel,
-    categorias,
-    tags,
-    textoBusca,
-    matchTags: 0,
-    score: 0
-  };
-});
+      return {
+        ...imovel,
+        categorias,
+        tags,
+        textoBusca,
+        matchTags: 0,
+        score: 0
+      };
+    });
 
   } catch (err) {
     console.error("Erro ao carregar imóveis:", err);
   }
+}
+
+/* ======================================================
+   FILTROS DE LOCALIZAÇÃO (CIDADE E BAIRRO)
+====================================================== */
+function inicializarFiltroLocalizacao() {
+  povoarCheckboxesLocalizacao();
+  configurarEventosModal();
+  configurarBuscaInternaModal();
+}
+
+function povoarCheckboxesLocalizacao() {
+  const cidadesSet = new Set();
+  const bairrosSet = new Set();
+
+  cacheImoveis.forEach(i => {
+    if (i.cidade) cidadesSet.add(i.cidade.trim());
+    if (i.bairro) bairrosSet.add(i.bairro.trim());
+  });
+
+  renderizarCheckboxes('cityList', [...cidadesSet].sort(), 'cidadeCheckbox');
+  renderizarCheckboxes('neighborhoodList', [...bairrosSet].sort(), 'bairroCheckbox');
+}
+
+function renderizarCheckboxes(containerId, itens, nomeInput) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = itens.map(item => `
+    <label class="checkbox-item">
+      <input type="checkbox" name="${nomeInput}" value="${item}">
+      <span>${item}</span>
+    </label>
+  `).join('');
+}
+
+function configurarBuscaInternaModal() {
+  const configurarInputBusca = (inputId, containerId) => {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    input.addEventListener('input', (e) => {
+      const termo = e.target.value.toLowerCase().trim();
+      const labels = document.querySelectorAll(`#${containerId} .checkbox-item`);
+
+      labels.forEach(label => {
+        const texto = label.textContent.toLowerCase();
+        label.style.display = texto.includes(termo) ? 'flex' : 'none';
+      });
+    });
+  };
+
+  configurarInputBusca('searchCity', 'cityList');
+  configurarInputBusca('searchNeighborhood', 'neighborhoodList');
+}
+
+function configurarEventosModal() {
+  const modal = document.getElementById('filterModal');
+  const btnOpen = document.getElementById('openFilterBtn');
+  const btnClose = document.getElementById('closeFilterBtn');
+  const btnApply = document.getElementById('applyFilters');
+  const btnClear = document.getElementById('clearLocationFilters');
+
+  if (!modal) return;
+
+  btnOpen?.addEventListener('click', () => modal.classList.add('active'));
+  btnClose?.addEventListener('click', () => modal.classList.remove('active'));
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+
+  btnApply?.addEventListener('click', () => {
+    cidadesAtivas.clear();
+    document.querySelectorAll('input[name="cidadeCheckbox"]:checked').forEach(el => cidadesAtivas.add(el.value));
+
+    bairrosAtivas.clear();
+    document.querySelectorAll('input[name="bairroCheckbox"]:checked').forEach(el => bairrosAtivas.add(el.value));
+
+    modal.classList.remove('active');
+    filtrarImoveis();
+  });
+
+  btnClear?.addEventListener('click', () => {
+    document.querySelectorAll('input[name="cidadeCheckbox"], input[name="bairroCheckbox"]').forEach(el => el.checked = false);
+    cidadesAtivas.clear();
+    bairrosAtivas.clear();
+    filtrarImoveis();
+  });
 }
 
 /* ======================================================
@@ -224,7 +317,6 @@ function obterPrecoParaFiltro(imovel) {
   if (tipoAtivo === "venda") return venda ?? null;
   if (tipoAtivo === "aluguel") return aluguel ?? null;
 
-  // todos → retorna array de valores válidos
   return [venda, aluguel].filter(v => typeof v === "number");
 }
 
@@ -235,7 +327,6 @@ function getPrecoOrdenacao(imovel) {
   if (tipoAtivo === "venda") return venda ?? Infinity;
   if (tipoAtivo === "aluguel") return aluguel ?? Infinity;
 
-  // TODOS → menor valor válido
   return Math.min(
     venda ?? Infinity,
     aluguel ?? Infinity
@@ -245,34 +336,36 @@ function getPrecoOrdenacao(imovel) {
 function filtrarImoveis() {
   const termo = campoBusca?.value.toLowerCase().trim() || "";
   const min = parseFloat(document.getElementById("min")?.value);
-const max = parseFloat(document.getElementById("max")?.value);
+  const max = parseFloat(document.getElementById("max")?.value);
 
-const quartos = parseInt(document.getElementById("quartos")?.value);
-const banheiros = parseInt(document.getElementById("banheiros")?.value);
+  const quartos = parseInt(document.getElementById("quartos")?.value);
+  const banheiros = parseInt(document.getElementById("banheiros")?.value);
 
 
   // 💤 dorme se não houve uso do usuário
   if (
-  !termo &&
-  !tagsAtivas.size &&
-  tipoAtivo === "todos" &&
-  isNaN(min) &&
-  isNaN(max) &&
-  isNaN(quartos) &&
-  isNaN(banheiros)
-) {
+    !termo &&
+    !tagsAtivas.size &&
+    !cidadesAtivas.size &&
+    !bairrosAtivas.size &&
+    tipoAtivo === "todos" &&
+    isNaN(min) &&
+    isNaN(max) &&
+    isNaN(quartos) &&
+    isNaN(banheiros)
+  ) {
+    mostrarLoading();
+
+    setTimeout(() => {
+      resultados.innerHTML = "";
+      atualizarTotalResultados(0);
+      esconderLoading();
+    }, 300);
+
+    return;
+  }
+
   mostrarLoading();
-
-  setTimeout(() => {
-    resultados.innerHTML = "";
-    atualizarTotalResultados(0);
-    esconderLoading();
-  }, 300);
-
-  return;
-}
-
-mostrarLoading();
   
 
   let filtrados = cacheImoveis.filter(i => {
@@ -280,6 +373,10 @@ mostrarLoading();
       tipoAtivo !== "todos" &&
       !i.categorias?.includes(tipoAtivo)
     ) return false;
+
+    // Filtros de Localização do Modal
+    if (cidadesAtivas.size > 0 && !cidadesAtivas.has(i.cidade)) return false;
+    if (bairrosAtivas.size > 0 && !bairrosAtivas.has(i.bairro)) return false;
 
     let matchTags = 0;
 
@@ -298,24 +395,21 @@ mostrarLoading();
     const precos = obterPrecoParaFiltro(i);
 
     if (Array.isArray(precos)) {
-      // TODOS → pelo menos um valor dentro do range
       const valido = precos.some(p =>
         (isNaN(min) || p >= min) &&
         (isNaN(max) || p <= max)
       );
       if (!valido) return false;
     } else {
-      // VENDA ou ALUGUEL
       if (precos == null) return false;
       if (!isNaN(min) && precos < min) return false;
       if (!isNaN(max) && precos > max) return false;
     }
-    // FILTRO DE QUARTOS
+
     if (!isNaN(quartos)) {
       if (i.quartos == null || i.quartos < quartos) return false;
     }
 
-    // FILTRO DE BANHEIROS
     if (!isNaN(banheiros)) {
       if (i.banheiros == null || i.banheiros < banheiros) return false;
     }
@@ -392,7 +486,6 @@ function renderizarResultados(lista) {
     card.className = "imovel";
 
     card.innerHTML = `
-  
       <div class="galeria-carrossel">
         <img src="${img1}">
         <img src="${img2}">
@@ -400,7 +493,6 @@ function renderizarResultados(lista) {
         <img src="${img3}" alt="${i.descricao}">
         <span>Ver + fotos</span>
         </a>
-
       </div>
       <h3>
       <a href="/imovel/${i.slug}.html" target="_blank" rel="noopener noreferrer" >
@@ -417,18 +509,17 @@ function renderizarResultados(lista) {
       </div>
 
       <div class="tipo">
-  ${i.valor?.venda
-    ? `<div>Venda: <strong>${formatarMoeda(i.valor.venda)}</strong></div>`
-    : ""}
+        ${i.valor?.venda
+          ? `<div>Venda: <strong>${formatarMoeda(i.valor.venda)}</strong></div>`
+          : ""}
 
-  ${i.valor?.aluguel
-    ? `<div>Aluguel: <strong>${formatarMoeda(i.valor.aluguel)}</strong></div>`
-    : ""}
+        ${i.valor?.aluguel
+          ? `<div>Aluguel: <strong>${formatarMoeda(i.valor.aluguel)}</strong></div>`
+          : ""}
 
-      <a href="/imovel/${i.slug}.html" target="_blank" rel="noopener noreferrer" class="card-btn">
-      Ver Detalhes</a>
-
-    </div>
+        <a href="/imovel/${i.slug}.html" target="_blank" rel="noopener noreferrer" class="card-btn">
+        Ver Detalhes</a>
+      </div>
     `;
 
     frag.appendChild(card);
@@ -442,9 +533,7 @@ function renderizarResultados(lista) {
    ATUALIZAR TOTAL
 ====================================================== */
 function atualizarTotalResultados(qtd) {
-  if (!totalResultados) 
-    
-    return;
+  if (!totalResultados) return;
 
   totalResultados.textContent =
     qtd === 1
@@ -453,10 +542,8 @@ function atualizarTotalResultados(qtd) {
       ? `${qtd} imóveis encontrados`
       : "Experimente pesquisar por texto e tags...";
 
-      // força o flash dourado
   totalResultados.classList.remove("flash");
-  void totalResultados.offsetWidth; // truque pra resetar a animação
-  
+  void totalResultados.offsetWidth; 
   totalResultados.classList.add("flash");
 }
 
@@ -465,17 +552,16 @@ function atualizarTotalResultados(qtd) {
 ====================================================== */
 function configurarEventos() {
   campoBusca?.addEventListener("input", () => {
+    buscaManualAtiva = true;
+    registrarInteracaoManual();
 
-  buscaManualAtiva = true;
-  registrarInteracaoManual(); // prioridade máxima
+    mostrarLoading();
 
-  mostrarLoading();
-
-  clearTimeout(window._buscaDelay);
-  window._buscaDelay = setTimeout(() => {
-    filtrarImoveis();
-  }, 300);
-});
+    clearTimeout(window._buscaDelay);
+    window._buscaDelay = setTimeout(() => {
+      filtrarImoveis();
+    }, 300);
+  });
 
   document.querySelectorAll(".acoes button").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -483,7 +569,6 @@ function configurarEventos() {
       document.querySelectorAll(".acoes button").forEach(b => b.classList.remove("ativo"));
       btn.classList.add("ativo");
       filtrarImoveis();
-      
     });
   });
 
@@ -497,52 +582,46 @@ function configurarEventos() {
   });
 
   document.getElementById("limparTags")?.addEventListener("click", () => {
-  // limpa estado
-  tagsAtivas.clear();
-  tipoAtivo = "todos";
+    tagsAtivas.clear();
+    cidadesAtivas.clear();
+    bairrosAtivas.clear();
+    tipoAtivo = "todos";
 
-  // limpa UI das tags e botões
-  document.querySelectorAll(".tag-dinamica").forEach(b => b.classList.remove("ativo"));
-  document.querySelectorAll(".acoes button").forEach(b => b.classList.remove("ativo"));
-  document.querySelector('[data-tipo="todos"]')?.classList.add("ativo");
+    document.querySelectorAll(".tag-dinamica").forEach(b => b.classList.remove("ativo"));
+    document.querySelectorAll(".acoes button").forEach(b => b.classList.remove("ativo"));
+    document.querySelectorAll('input[name="cidadeCheckbox"], input[name="bairroCheckbox"]').forEach(el => el.checked = false);
+    document.querySelector('[data-tipo="todos"]')?.classList.add("ativo");
 
-  // limpa valores de preço
-  const minInput = document.getElementById("min");
-  const maxInput = document.getElementById("max");
+    const minInput = document.getElementById("min");
+    const maxInput = document.getElementById("max");
 
-  if (minInput) minInput.value = "";
-  if (maxInput) maxInput.value = "";
-// limpa quarto e banheiro
-  document.getElementById("quartos").value = "";
-  document.getElementById("banheiros").value = "";
+    if (minInput) minInput.value = "";
+    if (maxInput) maxInput.value = "";
 
-  document.getElementById("buscaTexto").value = "";
+    document.getElementById("quartos").value = "";
+    document.getElementById("banheiros").value = "";
+    document.getElementById("buscaTexto").value = "";
 
-  // reaplica filtro
-  filtrarImoveis();
-});
+    filtrarImoveis();
+  });
 
 
   document.getElementById("min")?.addEventListener("input", filtrarImoveis);
   document.getElementById("max")?.addEventListener("input", filtrarImoveis);
-
   document.getElementById("quartos")?.addEventListener("input", filtrarImoveis);
   document.getElementById("banheiros")?.addEventListener("input", filtrarImoveis);
-
 }
 
-//BARRA DE LOADING DA BUSCA
+// BARRA DE LOADING DA BUSCA
 function mostrarLoading() {
   const bar = document.getElementById("loadingBar");
   if (!bar) return;
-
   bar.classList.add("ativo");
 }
 
 function esconderLoading() {
   const bar = document.getElementById("loadingBar");
   if (!bar) return;
-
   bar.style.width = "100%";
 
   setTimeout(() => {
@@ -550,7 +629,3 @@ function esconderLoading() {
     bar.style.width = "0%";
   }, 400);
 }
-
-
-/* BUSCA AVANÇADA **************** */
-
