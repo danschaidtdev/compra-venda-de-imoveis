@@ -505,7 +505,7 @@ function renderizarResultados(lista) {
       <p><span class="material-symbols-outlined hotel">hotel</span>${i.quartos}</p>
       <p><span class="material-symbols-outlined garage">garage</span>${i.garagem}</p>
       <br>
-      <p>${i.cidade}<br>${i.bairro}</p>
+      <p class="cid-bai" >${i.cidade}<br>${i.bairro}</p>
       
       </div>
 

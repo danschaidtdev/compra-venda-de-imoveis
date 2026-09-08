@@ -500,6 +500,10 @@ button.ativo, .tags button.ativo, select option.ativo {
     cursor: pointer;
 }
 
+.cid-bai{
+  padding: 3px;
+  border-bottom: solid var(--cor-azul-escuro);
+}
 
 @media (min-width: 480px) {
   .lista-imoveis {
