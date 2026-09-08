@@ -125,7 +125,7 @@ function scrollParaResultados() {
 ====================================================== */
 async function carregarImoveis() {
   try {
-    const res = await fetch("/assets/json/dados-imoveis.json", { cache: "no-store" });
+    const res = await fetch("assets/json/dados-imoveis.json", { cache: "no-store" });
     const data = await res.json();
 
     cacheImoveis = data.map(imovel => {

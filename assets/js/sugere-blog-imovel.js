@@ -416,7 +416,7 @@ const FILTROS =
   );
 
 const JSON_URL =
-  '../assets/json/dados-blog.json';
+  'assets/json/dados-blog.json';
 
 let posts = [];
 let categoriaAtiva = 'todas';
@@ -803,10 +803,10 @@ document.addEventListener(
     ) {
       sugestaoBidirecional({
         urlImoveis:
-          '../assets/json/dados-imoveis.json',
+          'assets/json/dados-imoveis.json',
 
         urlBlog:
-          '../assets/json/dados-blog.json',
+          'assets/json/dados-blog.json',
 
         containerId:
           'sugestao-dinamica',

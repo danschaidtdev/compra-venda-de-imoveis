@@ -40,7 +40,7 @@ function calcularSimilaridade(base, candidato) {
 }
 
 async function carregarImoveis() {
-  const res = await fetch("/assets/json/dados-imoveis.json");
+  const res = await fetch("assets/json/dados-imoveis.json");
   return await res.json();
 }
 
