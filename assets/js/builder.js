@@ -59,7 +59,7 @@ function imoveisPorPost(post, dadosImoveis) {
 
 function gerarCard(item, tipo = 'blog') {
   const titulo = tipo === 'blog' ? item.tituloPrincipal : item.titulo;
-  const link   = tipo === 'blog' ? `blog/${item.slug}.html` : `imovel/${item.slug}.html`;
+  const link   = tipo === 'blog' ? `/blog/${item.slug}.html` : `/imovel/${item.slug}.html`;
   const img    = item.imagens?.[0] || '';
 
   return `
@@ -314,7 +314,7 @@ ${JSON.stringify(schema, null, 2)}
         <li><strong>Bairro:</strong> ${imovel.bairro}</li>
         <li><strong>Localização:</strong> ${imovel.endereco}</li>
       </ul>
-      <strong>${imovel.tags}</strong>
+      <strong>${imovel.tags}</strong><br>
       
 
     
