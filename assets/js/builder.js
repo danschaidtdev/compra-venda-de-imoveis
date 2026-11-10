@@ -64,7 +64,7 @@ function gerarCard(item, tipo = 'blog') {
 
   return `
     <article class="card-post" onclick="window.location.href='${link}'">
-      ${img ? `<img src="${img}" alt="${titulo}">` : ''}
+      ${img ? `<img src="${img}" loading="lazy" alt="${titulo}">` : ''}
       <h3>${titulo}</h3>
     </article>
   `;
@@ -158,7 +158,7 @@ function gerarHTMLImovel(imovel) {
     galeriaHTML = `
 <section class="bloco-galeria efeito-destaque">
   <div class="galeria-carrossel" id="galeria-${imovel.slug}">
-    ${imovel.imagens.map(img => `<img src="${img}" alt="${imovel.titulo}">`).join("\n")}
+    ${imovel.imagens.map(img => `<img src="${img}" loading="lazy" alt="${imovel.titulo}">`).join("\n")}
   </div>
 </section>`;
   }
@@ -236,7 +236,7 @@ ${JSON.stringify(schema, null, 2)}
   <div class="moldura-nav blocoMenu">
   <div id="logotipo">
     <a href="/index.html">
-      <img src="assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" alt="LOGO Corretor de Imóveis Dan Schaidt">
+      <img src="assets/img/logo-png-escuro-dan-schaidt-corretor-de-imoveis-rio-grande-do-sul.png" loading="lazy" alt="LOGO Corretor de Imóveis Dan Schaidt">
     </a>
   </div>
 
@@ -335,7 +335,7 @@ ${JSON.stringify(schema, null, 2)}
             <div class="botaoCTA" style="margin-top: 3vh;">
                   <button type="button" >Agendar uma Visita</button>
               </div>
-          <img class=" img-decorada" src="assets/img/completo-fundo-azul-amarelo.webp"
+          <img class=" img-decorada" src="assets/img/completo-fundo-azul-amarelo.webp" loading="lazy"
               alt="Corretor de Imóveis no Rio Grande do Sul, Dan Schaidt">
               
         </div>
@@ -397,7 +397,7 @@ sugestaoBidirecional({
   *-*%20_${imovel.cidade}_%0A
   " target="_blank" rel="noopener noreferrer">
     <div class="botaoFIXO">
-      <img src="assets/img/img-geral/logo-whatsapp.png" alt="">
+      <img src="assets/img/img-geral/logo-whatsapp.png" loading="lazy" alt="">
 
     </div>
 </a>  

@@ -110,7 +110,7 @@ function renderizarSugestoes(lista) {
     <article class="card-imovel efeito-eleva">
       <a href="/imovel/${imovel.slug}.html">
         <img 
-          src="${imovel.imagemCapa}"
+          src="${imovel.imagemCapa}" 
           alt="${imovel.titulo}"
           loading="lazy"
           decoding="async"
